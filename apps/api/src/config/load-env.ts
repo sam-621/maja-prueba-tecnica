@@ -1,6 +1,8 @@
 import { config } from 'dotenv';
 import * as path from 'path';
-import { Env, envSchema } from './env-schema';
+
+import type { Env } from './env-schema';
+import { envSchema } from './env-schema';
 
 const ENV_FILES: Record<Env, string> = {
   local: '.env.local',
