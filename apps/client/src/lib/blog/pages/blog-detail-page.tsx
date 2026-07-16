@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { PageLoader } from '@/shared/components/loader/page-loader';
+import { BlogActions } from '@/lib/blog/components/blog-actions/blog-actions';
 import { useBlog } from '@/lib/blog/hooks/use-blog';
 
 export const BlogDetailPage = () => {
@@ -31,12 +32,16 @@ export const BlogDetailPage = () => {
         Back
       </ButtonLink>
 
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold">{blog.title}</h1>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          {blog.author && <span>by {blog.author.fullname}</span>}
-          <Badge variant="outline">{blog.status}</Badge>
+      <header className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-semibold">{blog.title}</h1>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {blog.author && <span>by {blog.author.fullname}</span>}
+            <Badge variant="outline">{blog.status}</Badge>
+          </div>
         </div>
+
+        <BlogActions blog={blog} />
       </header>
 
       <div className="leading-relaxed whitespace-pre-wrap text-foreground/90">

@@ -12,26 +12,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import type { Blog } from '@/lib/api/types';
 
-import { useBlogForm, type BlogFormInput } from './use-blog-form';
+import { useBlogForm } from './use-blog-form';
 
 type Props = {
-  defaultValues?: Partial<BlogFormInput>;
-  submitLabel?: string;
-  isLoading?: boolean;
-  onSubmit: (data: BlogFormInput) => Promise<void> | void;
+  blog?: Blog | null;
 };
 
-export const BlogForm = ({
-  defaultValues,
-  submitLabel = 'Save',
-  isLoading,
-  onSubmit,
-}: Props) => {
-  const { form, onSubmit: handleSubmit } = useBlogForm({
-    defaultValues,
-    onSubmit,
-  });
+export const BlogForm = ({ blog }: Props) => {
+  const { form, onSubmit, isUpdate, isLoading } = useBlogForm(blog);
   const {
     register,
     control,
@@ -39,7 +29,7 @@ export const BlogForm = ({
   } = form;
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+    <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
         <Field className="flex-1">
           <FieldLabel htmlFor="title">Title</FieldLabel>
@@ -87,7 +77,7 @@ export const BlogForm = ({
 
       <Button type="submit" disabled={isLoading} className="self-start">
         {isLoading && <Loader2 className="animate-spin" />}
-        {submitLabel}
+        {isUpdate ? 'Save changes' : 'Create post'}
       </Button>
     </form>
   );

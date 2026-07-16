@@ -8,6 +8,7 @@ import { LoginPage } from '@/lib/auth/pages/login-page';
 import { SignupPage } from '@/lib/auth/pages/signup-page';
 import { BlogDetailPage } from '@/lib/blog/pages/blog-detail-page';
 import { BlogsFeedPage } from '@/lib/blog/pages/blogs-feed-page';
+import { EditBlogPage } from '@/lib/blog/pages/edit-blog-page';
 import { NewBlogPage } from '@/lib/blog/pages/new-blog-page';
 import { SiteLayout } from '@/shared/components/layout/site-layout';
 import { NotFoundPage } from '@/shared/components/not-found-page';
@@ -40,6 +41,15 @@ export const App = () => {
                   element={
                     <Protect>
                       <NewBlogPage />
+                    </Protect>
+                  }
+                />
+
+                <Route
+                  path="/blogs/:id/edit"
+                  element={
+                    <Protect>
+                      <EditBlogPage />
                     </Protect>
                   }
                 />
