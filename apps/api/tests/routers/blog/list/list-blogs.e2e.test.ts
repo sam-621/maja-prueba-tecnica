@@ -33,34 +33,24 @@ describe('GET /blogs - e2e', async () => {
     ]);
   });
 
-  test('responds all blogs', async () => {
+  test('responds only published blogs', async () => {
     const res = await testServer.get<ListResponse>('/blogs');
 
-    expect(res.data?.blogs).toHaveLength(4);
+    expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID, BlogConstants.PASTA_ID].sort());
     expect(res.data?.pageInfo).toMatchObject({ page: 1, size: 10, totalPages: 1 });
   });
 
   test('responds blogs paginated with page and size', async () => {
-    const first = await testServer.get<ListResponse>('/blogs?page=1&size=2');
+    const first = await testServer.get<ListResponse>('/blogs?page=1&size=1');
 
-    expect(first.data?.pageInfo).toMatchObject({ page: 1, size: 2, totalPages: 2 });
-    expect(first.data?.blogs).toHaveLength(2);
+    expect(first.data?.pageInfo).toMatchObject({ page: 1, size: 1, totalPages: 2 });
+    expect(first.data?.blogs).toHaveLength(1);
   });
 
-  test('responds all blogs with filtered by author fullname', async () => {
-    const res = await testServer.get<ListResponse>('/blogs?fullname=alice');
+  test('responds all blogs filtered by search on blog title', async () => {
+    const res = await testServer.get<ListResponse>('/blogs?search=TypeScript');
 
-    expect(ids(res)).toEqual(
-      [BlogConstants.TS_INTRO_ID, BlogConstants.TS_ADVANCED_ID].sort()
-    );
-  });
-
-  test('responds all blogs filtered by blog title', async () => {
-    const res = await testServer.get<ListResponse>('/blogs?title=TypeScript');
-
-    expect(ids(res)).toEqual(
-      [BlogConstants.TS_INTRO_ID, BlogConstants.TS_ADVANCED_ID].sort()
-    );
+    expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID]);
   });
 
   test('responds all blogs filtered by category id', async () => {
@@ -68,14 +58,12 @@ describe('GET /blogs - e2e', async () => {
       `/blogs?categoryId=${CategoryConstants.TECH_ID}`
     );
 
-    expect(ids(res)).toEqual(
-      [BlogConstants.TS_INTRO_ID, BlogConstants.TS_ADVANCED_ID].sort()
-    );
+    expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID]);
   });
 
   test('responds all blogs combining multiple filters', async () => {
     const res = await testServer.get<ListResponse>(
-      `/blogs?fullname=bob&categoryId=${CategoryConstants.FOOD_ID}`
+      `/blogs?search=Pasta&categoryId=${CategoryConstants.FOOD_ID}`
     );
 
     expect(ids(res)).toEqual([BlogConstants.PASTA_ID]);
