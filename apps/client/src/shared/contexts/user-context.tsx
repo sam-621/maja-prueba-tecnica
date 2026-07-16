@@ -5,13 +5,19 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useState,
   type ReactNode,
 } from 'react';
 
 import type { User } from '@/lib/api/types';
 import { AuthCacheKeys } from '@/lib/auth/constants/cache-keys';
 import { useWhoami } from '@/lib/auth/hooks/use-whoami';
-import { removeCookie, setCookie, CookiesKeys } from '@/shared/cookies';
+import {
+  getCookie,
+  removeCookie,
+  setCookie,
+  CookiesKeys,
+} from '@/shared/cookies';
 
 type ContextSchema = {
   isLoading: boolean;
@@ -33,9 +39,14 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { data: user, isLoading, refetch } = useWhoami();
 
+  const [token, setToken] = useState<string | null>(
+    () => getCookie(CookiesKeys.UserToken) ?? null
+  );
+
   const signIn = useCallback(
-    async (token: string) => {
-      setCookie(CookiesKeys.UserToken, token, { expires: 7 });
+    async (nextToken: string) => {
+      setCookie(CookiesKeys.UserToken, nextToken, { expires: 7 });
+      setToken(nextToken);
       await refetch();
     },
     [refetch]
@@ -43,18 +54,21 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = useCallback(() => {
     removeCookie(CookiesKeys.UserToken);
+    setToken(null);
     queryClient.removeQueries({ queryKey: [AuthCacheKeys.Whoami] });
   }, [queryClient]);
+
+  const currentUser = token ? (user ?? null) : null;
 
   const value = useMemo<ContextSchema>(
     () => ({
       isLoading,
-      isSignedIn: !!user,
-      user: user ?? null,
+      isSignedIn: !!currentUser,
+      user: currentUser,
       signIn,
       signOut,
     }),
-    [user, isLoading, signIn, signOut]
+    [currentUser, isLoading, signIn, signOut]
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

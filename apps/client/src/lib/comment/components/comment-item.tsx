@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Comment } from '@/lib/api/types';
+import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { useUser } from '@/shared/contexts/user-context';
 import { formatDate } from '@/shared/utils/format-date';
 
@@ -57,9 +58,7 @@ export const CommentItem = ({ comment, blogId }: Props) => {
             {formatDate(comment.createdAt)}
           </time>
         </div>
-        <p className="text-sm whitespace-pre-wrap text-foreground/90">
-          {comment.content}
-        </p>
+        <MarkdownPreview content={comment.content} className="text-sm" />
       </div>
 
       {isOwn && (
