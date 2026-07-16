@@ -16,6 +16,8 @@
     "strictBindCallApply": false,
     "resolveJsonModule": true,
     "preserveConstEnums": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "types": ["vitest/globals", "node"],
     "paths": {
       "@/*": ["./src/*"],
