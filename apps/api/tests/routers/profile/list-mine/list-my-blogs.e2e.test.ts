@@ -55,6 +55,22 @@ describe('GET /me/blogs - e2e', async () => {
     expect(res.body.data?.pageInfo).toMatchObject({ page: 1, size: 10, totalPages: 1 });
   });
 
+  test('includes the categories of each blog', async () => {
+    const res = await testServer.get<ListResponse>('/me/blogs', {
+      headers: aliceHeader
+    });
+
+    const tsIntro = res.body.data?.blogs.find(blog => blog.id === BlogConstants.TS_INTRO_ID);
+
+    expect(tsIntro?.categories).toEqual([
+      expect.objectContaining({
+        id: CategoryConstants.TECH_ID,
+        name: CategoryConstants.TECH_NAME,
+        slug: 'technology'
+      })
+    ]);
+  });
+
   test('does not include blogs authored by other users', async () => {
     const res = await testServer.get<ListResponse>('/me/blogs', {
       headers: authHeaderFor(BobAuthor)

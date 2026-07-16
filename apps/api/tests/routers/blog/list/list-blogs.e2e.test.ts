@@ -40,6 +40,20 @@ describe('GET /blogs - e2e', async () => {
     expect(res.body.data?.pageInfo).toMatchObject({ page: 1, size: 10, totalPages: 1 });
   });
 
+  test('includes the categories of each blog', async () => {
+    const res = await testServer.get<ListResponse>('/blogs');
+
+    const tsIntro = res.body.data?.blogs.find(blog => blog.id === BlogConstants.TS_INTRO_ID);
+
+    expect(tsIntro?.categories).toEqual([
+      expect.objectContaining({
+        id: CategoryConstants.TECH_ID,
+        name: CategoryConstants.TECH_NAME,
+        slug: 'technology'
+      })
+    ]);
+  });
+
   test('responds blogs paginated with page and size', async () => {
     const first = await testServer.get<ListResponse>('/blogs?page=1&size=1');
 

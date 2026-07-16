@@ -33,6 +33,7 @@ export class ListMyBlogsEndpoint extends Endpoint {
       .createQueryBuilder('blog')
       .leftJoin('blog.author', 'author')
       .addSelect(['author.id', 'author.fullname', 'author.email'])
+      .leftJoinAndSelect('blog.categories', 'category')
       .where('blog.authorId = :authorId', { authorId: currentUser.id })
       .orderBy('blog.createdAt', 'DESC')
       .addOrderBy('blog.id', 'ASC')

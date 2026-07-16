@@ -25,7 +25,10 @@ export class GetBlogEndpoint extends Endpoint {
     const { repositories } = res.locals.ctx as RequestContext;
     const id = req.params.id as string;
 
-    const blog = await repositories.post.findOneBy({ id });
+    const blog = await repositories.post.findOne({
+      where: { id },
+      relations: { categories: true }
+    });
 
     if (!blog) {
       throw new BlogNotFound();

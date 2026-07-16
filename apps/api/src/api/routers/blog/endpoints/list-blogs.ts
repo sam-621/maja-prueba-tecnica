@@ -28,6 +28,7 @@ export class ListBlogsEndpoint extends Endpoint {
       .createQueryBuilder('blog')
       .leftJoin('blog.author', 'author')
       .addSelect(['author.id', 'author.fullname', 'author.email'])
+      .leftJoinAndSelect('blog.categories', 'category')
       .where('blog.status = :status', { status: 'published' })
       .orderBy('blog.createdAt', 'DESC')
       .addOrderBy('blog.id', 'ASC')

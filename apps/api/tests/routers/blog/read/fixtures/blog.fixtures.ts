@@ -1,8 +1,11 @@
-import { Post } from '@/persistence/entities';
+import { type Category, Post } from '@/persistence/entities';
 import type { Fixture } from '@/tests/fixtures/fixture';
 import { TestUtils } from '@/tests/utils/test-utils';
 
+import { CategoryConstants } from './category.fixtures';
 import { UserConstants } from './user.fixtures';
+
+const categoryRef = (id: string) => ({ id }) as Category;
 
 export const BlogConstants = {
   ID: TestUtils.generateUUID(),
@@ -20,7 +23,8 @@ export class BlogFixtures implements Fixture<Post> {
         title: BlogConstants.Title,
         content: BlogConstants.Content,
         status: 'published',
-        authorId: UserConstants.ID
+        authorId: UserConstants.ID,
+        categories: [categoryRef(CategoryConstants.TECH_ID)]
       }
     ];
   }

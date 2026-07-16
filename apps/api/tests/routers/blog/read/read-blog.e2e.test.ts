@@ -5,6 +5,7 @@ import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
 
 import { BlogConstants, BlogFixtures } from './fixtures/blog.fixtures';
+import { CategoryConstants, CategoryFixtures } from './fixtures/category.fixtures';
 import { UserConstants, UserFixtures } from './fixtures/user.fixtures';
 
 describe('GET /blogs/:id - e2e', async () => {
@@ -19,7 +20,11 @@ describe('GET /blogs/:id - e2e', async () => {
   const authHeader = { authorization: `Bearer ${authToken}` };
 
   beforeEach(async () => {
-    await testUtils.loadFixtures([new UserFixtures(), new BlogFixtures()]);
+    await testUtils.loadFixtures([
+      new UserFixtures(),
+      new CategoryFixtures(),
+      new BlogFixtures()
+    ]);
   });
 
   test('returns the blog for an existing id', async () => {
@@ -35,6 +40,20 @@ describe('GET /blogs/:id - e2e', async () => {
       status: 'published',
       authorId: UserConstants.ID
     });
+  });
+
+  test('includes the categories of the blog', async () => {
+    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`, {
+      headers: authHeader
+    });
+
+    expect(res.body.data?.categories).toEqual([
+      expect.objectContaining({
+        id: CategoryConstants.TECH_ID,
+        name: CategoryConstants.TECH_NAME,
+        slug: 'technology'
+      })
+    ]);
   });
 
   test('responds BLOG_NOT_FOUND for an unknown id', async () => {
