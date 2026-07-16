@@ -1,12 +1,13 @@
 import type { DataSource, Repository } from 'typeorm';
 
-import { User } from '@/persistence/entities';
+import { Post, User } from '@/persistence/entities';
 
 import type { EndpointFn } from './routers/endpoint';
 
 export type RequestContext = {
   repositories: {
     user: Repository<User>;
+    post: Repository<Post>;
   };
   currentUser?: User;
 };
@@ -17,7 +18,8 @@ export const requestContextMiddleware =
     res.locals = {
       ctx: {
         repositories: {
-          user: dataSource.getRepository(User)
+          user: dataSource.getRepository(User),
+          post: dataSource.getRepository(Post)
         }
       } satisfies RequestContext
     };
