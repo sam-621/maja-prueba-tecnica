@@ -8,6 +8,7 @@ import { requestContextMiddleware } from './api/request-context';
 import { AuthRouter } from './api/routers/auth';
 import { BlogRouter } from './api/routers/blog';
 import { CommentRouter } from './api/routers/comment';
+import { ProfileRouter } from './api/routers/profile';
 import { initDataSource } from './persistence/data-source';
 import { config } from './config';
 import { logger } from './logger';
@@ -27,10 +28,12 @@ export class Server {
     this.app.use(requestContextMiddleware(dataSource));
 
     const authRouter = new AuthRouter();
+    const profileRouter = new ProfileRouter();
     const blogRouter = new BlogRouter();
     const commentRouter = new CommentRouter();
 
     this.app.use(authRouter.router);
+    this.app.use(profileRouter.router);
     this.app.use(blogRouter.router);
     this.app.use(commentRouter.router);
   }
