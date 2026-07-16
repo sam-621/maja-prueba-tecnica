@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import cors from 'cors';
 import type { Application } from 'express';
 import express from 'express';
 
@@ -21,6 +22,7 @@ export class Server {
   async init() {
     const dataSource = await initDataSource();
 
+    this.app.use(cors({ origin: config.cors, credentials: true }));
     this.app.use(express.json());
     this.app.use(requestContextMiddleware(dataSource));
 
