@@ -14,6 +14,14 @@ export type Author = {
   email?: string;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type Blog = {
   id: string;
   title: string;
@@ -21,6 +29,7 @@ export type Blog = {
   status: BlogStatus;
   authorId: string;
   author?: Author;
+  categories?: Category[];
   createdAt: string;
   updatedAt: string;
 };
@@ -47,9 +56,25 @@ export type CreateBlogInput = {
   title: string;
   content: string;
   status?: BlogStatus;
+  categoryIds?: string[];
 };
 
 export type UpdateBlogInput = Partial<CreateBlogInput>;
+
+export type CategoriesResponse = {
+  categories: Category[];
+  pageInfo: PageInfo;
+};
+
+export type ListCategoriesParams = {
+  search?: string;
+  page?: number;
+  size?: number;
+};
+
+export type CreateCategoryInput = {
+  name: string;
+};
 
 export type LoginInput = {
   email: string;

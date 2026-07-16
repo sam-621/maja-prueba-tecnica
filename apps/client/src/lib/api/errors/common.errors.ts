@@ -6,6 +6,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   BLOG_NOT_FOUND: 'The blog you are looking for does not exist.',
   BLOG_FORBIDDEN: 'You are not allowed to modify this blog.',
   UNAUTHORIZED: 'Your session expired, please log in again.',
+  CATEGORY_ALREADY_EXISTS: 'That category already exists.',
 };
 
 export const getErrorMessage = (code?: string): string => {

@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import type { Blog } from '@/lib/api/types';
+import { CategoriesSelect } from '@/lib/category/components/categories-select';
 
 import { useBlogForm } from './use-blog-form';
 
@@ -62,6 +63,21 @@ export const BlogForm = ({ blog }: Props) => {
           />
         </Field>
       </div>
+
+      <Field>
+        <FieldLabel htmlFor="categories">Categories</FieldLabel>
+        <Controller
+          control={control}
+          name="categories"
+          render={({ field }) => (
+            <CategoriesSelect
+              id="categories"
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
+        />
+      </Field>
 
       <Field>
         <FieldLabel htmlFor="content">Content</FieldLabel>

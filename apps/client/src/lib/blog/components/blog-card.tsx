@@ -1,3 +1,4 @@
+import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Badge } from '@/components/ui/badge';
@@ -15,21 +16,31 @@ export const BlogCard = ({ blog, showStatus }: Props) => {
       <Card className="transition-colors hover:border-ring">
         <CardHeader>
           <CardTitle className="text-base">{blog.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          <p className="line-clamp-2 text-sm text-muted-foreground">
-            {blog.content}
-          </p>
           {showStatus ? (
             <Badge variant="outline" className="w-fit capitalize">
               {blog.status}
             </Badge>
           ) : (
             blog.author && (
-              <Badge variant="outline" className="w-fit">
+              <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <User className="size-3.5" />
                 {blog.author.fullname}
-              </Badge>
+              </span>
             )
+          )}
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <p className="line-clamp-2 text-sm text-muted-foreground">
+            {blog.content}
+          </p>
+          {blog.categories && blog.categories.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {blog.categories.map((category) => (
+                <Badge key={category.id} variant="secondary">
+                  {category.name}
+                </Badge>
+              ))}
+            </div>
           )}
         </CardContent>
       </Card>
