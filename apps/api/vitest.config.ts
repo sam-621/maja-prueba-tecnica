@@ -1,8 +1,16 @@
+import path from 'node:path';
+
 import { configDefaults, defineConfig } from 'vitest/config';
+
+// `@/tests` must precede `@` so the longer prefix wins.
+const alias = {
+  '@/tests': path.resolve(__dirname, './tests'),
+  '@': path.resolve(__dirname, './src')
+};
 
 export default defineConfig({
   resolve: {
-    tsconfigPaths: true
+    alias
   },
   test: {
     projects: [
