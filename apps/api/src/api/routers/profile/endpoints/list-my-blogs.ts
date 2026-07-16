@@ -12,7 +12,11 @@ const listMyBlogsQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   size: z.coerce.number().int().min(1).max(100).default(10),
   search: z.string().min(1).optional(),
-  categoryId: z.uuid().optional()
+  categoryIds: z
+    .string()
+    .optional()
+    .transform(value => (value ? value.split(',') : undefined))
+    .pipe(z.array(z.uuid()).optional())
 });
 
 export class ListMyBlogsEndpoint extends Endpoint {
@@ -26,7 +30,7 @@ export class ListMyBlogsEndpoint extends Endpoint {
 
   async execute(req: Request, res: Response): Promise<EndpointResult> {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
-    const { page, size, search, categoryId } =
+    const { page, size, search, categoryIds } =
       listMyBlogsQuerySchema.parse(req.query);
 
     const query = repositories.post
@@ -44,18 +48,18 @@ export class ListMyBlogsEndpoint extends Endpoint {
       query.andWhere('blog.title ILIKE :search', { search: `%${search}%` });
     }
 
-    if (categoryId) {
+    if (categoryIds?.length) {
       const matchingBlogIds = query
         .subQuery()
         .select('post.id')
         .from(Post, 'post')
         .innerJoin('post.categories', 'category')
-        .where('category.id = :categoryId')
+        .where('category.id IN (:...categoryIds)')
         .getQuery();
 
       query
         .andWhere(`blog.id IN ${matchingBlogIds}`)
-        .setParameter('categoryId', categoryId);
+        .setParameter('categoryIds', categoryIds);
     }
 
     const [blogs, total] = await query.getManyAndCount();

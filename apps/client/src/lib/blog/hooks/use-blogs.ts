@@ -34,7 +34,7 @@ function buildQueryParams(params: ListBlogsParams): URLSearchParams {
   const query = new URLSearchParams();
 
   if (params.search) query.set('search', params.search);
-  if (params.categoryId) query.set('categoryId', params.categoryId);
+  if (params.categoryIds?.length) query.set('categoryIds', params.categoryIds.join(','));
   if (params.size) query.set('size', String(params.size));
 
   return query;

@@ -47,7 +47,7 @@ export type BlogsResponse = {
 
 export type ListBlogsParams = {
   search?: string;
-  categoryId?: string;
+  categoryIds?: string[];
   page?: number;
   size?: number;
 };

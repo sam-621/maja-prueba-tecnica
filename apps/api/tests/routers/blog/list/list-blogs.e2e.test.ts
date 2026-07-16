@@ -67,17 +67,25 @@ describe('GET /blogs - e2e', async () => {
     expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID]);
   });
 
-  test('responds all blogs filtered by category id', async () => {
+  test('responds all blogs filtered by a single category id', async () => {
     const res = await testServer.get<ListResponse>(
-      `/blogs?categoryId=${CategoryConstants.TECH_ID}`
+      `/blogs?categoryIds=${CategoryConstants.TECH_ID}`
     );
 
     expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID]);
   });
 
+  test('responds blogs matching any of the comma-separated category ids', async () => {
+    const res = await testServer.get<ListResponse>(
+      `/blogs?categoryIds=${CategoryConstants.TECH_ID},${CategoryConstants.FOOD_ID}`
+    );
+
+    expect(ids(res)).toEqual([BlogConstants.TS_INTRO_ID, BlogConstants.PASTA_ID].sort());
+  });
+
   test('responds all blogs combining multiple filters', async () => {
     const res = await testServer.get<ListResponse>(
-      `/blogs?search=Pasta&categoryId=${CategoryConstants.FOOD_ID}`
+      `/blogs?search=Pasta&categoryIds=${CategoryConstants.FOOD_ID}`
     );
 
     expect(ids(res)).toEqual([BlogConstants.PASTA_ID]);
@@ -90,7 +98,7 @@ describe('GET /blogs - e2e', async () => {
   });
 
   test('responds 400 for a malformed categoryId', async () => {
-    const res = await testServer.get('/blogs?categoryId=not-a-uuid');
+    const res = await testServer.get('/blogs?categoryIds=not-a-uuid');
 
     expect(res.statusCode).toBe(400);
   });
