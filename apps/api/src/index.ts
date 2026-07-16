@@ -1,9 +1,4 @@
-import 'reflect-metadata';
+import { Server } from './server';
 
-import express from 'express';
-
-const app = express();
-
-app.listen(4000, () => {
-  console.log('hi');
-});
+const server = new Server();
+server.start();
