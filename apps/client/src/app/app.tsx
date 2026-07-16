@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@/components/ui/sonner';
-import { ThemeProvider } from '@/components/theme-provider';
 import { LoginPage } from '@/lib/auth/pages/login-page';
 import { SignupPage } from '@/lib/auth/pages/signup-page';
 import { BlogDetailPage } from '@/lib/blog/pages/blog-detail-page';
@@ -28,67 +27,65 @@ export const queryClient = new QueryClient({
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <UserContextProvider>
-            <Routes>
-              <Route element={<SiteLayout />}>
-                <Route path="/" element={<BlogsFeedPage />} />
-                <Route path="/blogs/:slug" element={<BlogDetailPage />} />
-
-                <Route
-                  path="/profile"
-                  element={
-                    <Protect>
-                      <ProfilePage />
-                    </Protect>
-                  }
-                />
-
-                <Route
-                  path="/new"
-                  element={
-                    <Protect>
-                      <NewBlogPage />
-                    </Protect>
-                  }
-                />
-
-                <Route
-                  path="/blogs/:slug/edit"
-                  element={
-                    <Protect>
-                      <EditBlogPage />
-                    </Protect>
-                  }
-                />
-              </Route>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <UserContextProvider>
+          <Routes>
+            <Route element={<SiteLayout />}>
+              <Route path="/" element={<BlogsFeedPage />} />
+              <Route path="/blogs/:slug" element={<BlogDetailPage />} />
 
               <Route
-                path="/login"
+                path="/profile"
                 element={
-                  <Public>
-                    <LoginPage />
-                  </Public>
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <Public>
-                    <SignupPage />
-                  </Public>
+                  <Protect>
+                    <ProfilePage />
+                  </Protect>
                 }
               />
 
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </UserContextProvider>
-          <Toaster />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ThemeProvider>
+              <Route
+                path="/new"
+                element={
+                  <Protect>
+                    <NewBlogPage />
+                  </Protect>
+                }
+              />
+
+              <Route
+                path="/blogs/:slug/edit"
+                element={
+                  <Protect>
+                    <EditBlogPage />
+                  </Protect>
+                }
+              />
+            </Route>
+
+            <Route
+              path="/login"
+              element={
+                <Public>
+                  <LoginPage />
+                </Public>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Public>
+                  <SignupPage />
+                </Public>
+              }
+            />
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </UserContextProvider>
+        <Toaster />
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 
