@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { Comment } from '@/lib/api/types';
 import { useUser } from '@/shared/contexts/user-context';
+import { formatDate } from '@/shared/utils/format-date';
 
 import { useDeleteComment } from '../hooks/use-delete-comment';
 
@@ -47,7 +48,15 @@ export const CommentItem = ({ comment, blogId }: Props) => {
       </Avatar>
 
       <div className="flex flex-1 flex-col gap-0.5">
-        <span className="text-sm font-medium">{authorName}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">{authorName}</span>
+          <time
+            dateTime={comment.createdAt}
+            className="text-xs text-muted-foreground"
+          >
+            {formatDate(comment.createdAt)}
+          </time>
+        </div>
         <p className="text-sm whitespace-pre-wrap text-foreground/90">
           {comment.content}
         </p>

@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/shared/utils/format-date';
 import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { PageLoader } from '@/shared/components/loader/page-loader';
@@ -40,8 +41,14 @@ export const BlogDetailPage = () => {
       <header className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-semibold">{blog.title}</h1>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {blog.author && <span>por {blog.author.fullname}</span>}
+          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            {blog.author && (
+              <>
+                <span>por {blog.author.fullname}</span>
+                <span aria-hidden>·</span>
+              </>
+            )}
+            <time dateTime={blog.createdAt}>{formatDate(blog.createdAt)}</time>
             <Badge variant="outline">{getStatusLabel(blog.status)}</Badge>
           </div>
         </div>
