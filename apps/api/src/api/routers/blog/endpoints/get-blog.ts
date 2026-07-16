@@ -17,15 +17,25 @@ export class GetBlogEndpoint extends Endpoint {
   }
 
   async execute(req: Request, res: Response): Promise<EndpointResult> {
-    const { repositories } = res.locals.ctx as RequestContext;
+    const { repositories, currentUser } = res.locals.ctx as RequestContext;
     const slug = req.params.slug as string;
 
-    const blog = await repositories.blog.findOne({
-      where: { slug },
-      relations: { categories: true }
-    });
+    const blog = await repositories.blog
+      .createQueryBuilder('blog')
+      .leftJoin('blog.author', 'author')
+      .addSelect(['author.id', 'author.fullname', 'author.email'])
+      .leftJoinAndSelect('blog.categories', 'category')
+      .where('blog.slug = :slug', { slug })
+      .getOne();
 
     if (!blog) {
+      throw new BlogNotFound();
+    }
+
+    const isPublished = blog.status === 'published';
+    const isAuthor = currentUser?.id === blog.authorId;
+
+    if (!isPublished && !isAuthor) {
       throw new BlogNotFound();
     }
 

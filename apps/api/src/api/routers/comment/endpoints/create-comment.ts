@@ -39,7 +39,7 @@ export class CreateCommentEndpoint extends Endpoint {
 
     const blog = await repositories.blog.findOneBy({ id: blogId });
 
-    if (!blog) {
+    if (!blog || blog.status !== 'published') {
       throw new BlogNotFound();
     }
 

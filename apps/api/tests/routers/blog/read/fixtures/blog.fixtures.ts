@@ -11,7 +11,10 @@ export const BlogConstants = {
   ID: TestUtils.generateUUID(),
   Title: 'Existing blog',
   Slug: 'existing-blog',
-  Content: 'Existing content'
+  Content: 'Existing content',
+  DraftID: TestUtils.generateUUID(),
+  DraftSlug: 'draft-blog',
+  DraftTitle: 'Draft blog'
 };
 
 export class BlogFixtures implements Fixture<Blog> {
@@ -27,6 +30,14 @@ export class BlogFixtures implements Fixture<Blog> {
         status: 'published',
         authorId: UserConstants.ID,
         categories: [categoryRef(CategoryConstants.TECH_ID)]
+      },
+      {
+        id: BlogConstants.DraftID,
+        title: BlogConstants.DraftTitle,
+        slug: BlogConstants.DraftSlug,
+        content: BlogConstants.Content,
+        status: 'draft',
+        authorId: UserConstants.ID
       }
     ];
   }

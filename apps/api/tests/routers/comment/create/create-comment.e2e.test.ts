@@ -48,6 +48,17 @@ describe('POST /blogs/:blogId/comments - e2e', async () => {
     expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
+  test('does not allow commenting on an unpublished blog, even for its author', async () => {
+    const res = await testServer.post(
+      `/blogs/${BlogConstants.DraftID}/comments`,
+      { content: 'Hello' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
+  });
+
   test('responds 400 when the content is empty', async () => {
     const res = await testServer.post(
       `/blogs/${BlogConstants.ID}/comments`,

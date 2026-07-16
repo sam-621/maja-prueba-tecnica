@@ -12,6 +12,13 @@ describe('GET /blogs/:slug - e2e', async () => {
   const testUtils = new TestUtils();
   const testServer = await TestServer.create();
 
+  const authorToken = TestUtils.generateJWT({
+    sub: UserConstants.ID,
+    email: UserConstants.Email
+  });
+
+  const authorHeader = { authorization: `Bearer ${authorToken}` };
+
   beforeEach(async () => {
     await testUtils.loadFixtures([
       new UserFixtures(),
@@ -32,11 +39,10 @@ describe('GET /blogs/:slug - e2e', async () => {
       status: 'published',
       authorId: UserConstants.ID
     });
-  });
-
-  test('includes the categories of the blog', async () => {
-    const res = await testServer.get<Blog>(`/blogs/${BlogConstants.Slug}`);
-
+    expect(res.body.data?.author).toMatchObject({
+      id: UserConstants.ID,
+      email: UserConstants.Email
+    });
     expect(res.body.data?.categories).toEqual([
       expect.objectContaining({
         id: CategoryConstants.TECH_ID,
@@ -50,5 +56,25 @@ describe('GET /blogs/:slug - e2e', async () => {
     const res = await testServer.get('/blogs/does-not-exist');
 
     expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
+  });
+
+  test('does not return an unpublished blog when are anonymous visitors', async () => {
+    const res = await testServer.get(`/blogs/${BlogConstants.DraftSlug}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
+  });
+
+  test('returns the unpublished blog when the author is visiting', async () => {
+    const res = await testServer.get<Blog>(`/blogs/${BlogConstants.DraftSlug}`, {
+      headers: authorHeader
+    });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data).toMatchObject({
+      id: BlogConstants.DraftID,
+      slug: BlogConstants.DraftSlug,
+      status: 'draft'
+    });
   });
 });

@@ -5,7 +5,8 @@ import { TestUtils } from '@/tests/utils/test-utils';
 import { UserConstants } from './user.fixtures';
 
 export const BlogConstants = {
-  ID: TestUtils.generateUUID()
+  ID: TestUtils.generateUUID(),
+  DraftID: TestUtils.generateUUID()
 };
 
 export class BlogFixtures implements Fixture<Blog> {
@@ -18,6 +19,13 @@ export class BlogFixtures implements Fixture<Blog> {
         title: 'A blog to comment on',
         content: 'Body',
         status: 'published',
+        authorId: UserConstants.ID
+      },
+      {
+        id: BlogConstants.DraftID,
+        title: 'An unpublished blog',
+        content: 'Body',
+        status: 'draft',
         authorId: UserConstants.ID
       }
     ];
