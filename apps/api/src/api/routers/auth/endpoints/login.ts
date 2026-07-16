@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
-import { sanitizationMiddleware } from '@/api/shared/middlewares/sanitization';
+import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { hasher } from '@/libs/hasher';
 import { jwt } from '@/libs/jwt';
 
@@ -18,7 +18,7 @@ type LoginInput = z.infer<typeof loginInputSchema>;
 
 export class LoginEndpoint extends Endpoint {
   constructor() {
-    super('/login', [sanitizationMiddleware(loginInputSchema)], 'post');
+    super('/login', [bodyValidationMiddleware(loginInputSchema)], 'post');
   }
 
   async execute(req: Request, res: Response): Promise<EndpointResult> {

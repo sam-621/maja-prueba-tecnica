@@ -2,7 +2,7 @@ import type { ZodObject } from 'zod';
 
 import type { EndpointFn } from '@/api/routers/endpoint';
 
-export const sanitizationMiddleware =
+export const bodyValidationMiddleware =
   (schema: ZodObject): EndpointFn =>
   (req, res, next) => {
     const result = schema.safeParse(req.body);
