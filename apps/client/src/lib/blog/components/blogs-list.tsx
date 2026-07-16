@@ -4,12 +4,20 @@ import { PageLoader } from '@/shared/components/loader/page-loader';
 import { useBlogFeed } from '../contexts/blog-feed-context';
 import { useBlogs } from '../hooks/use-blogs';
 import { BlogCard } from './blog-card';
+import { LoadMoreButton } from './load-more-button';
 
 export const BlogsList = () => {
   const { debouncedSearch } = useBlogFeed();
-  const { data, isLoading, error } = useBlogs({ search: debouncedSearch });
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useBlogs({ search: debouncedSearch });
 
-  const blogs = data?.blogs ?? [];
+  const blogs = data?.pages.flatMap((page) => page.blogs) ?? [];
 
   if (isLoading) {
     return <PageLoader />;
@@ -42,6 +50,12 @@ export const BlogsList = () => {
       {blogs.map((blog) => (
         <BlogCard key={blog.id} blog={blog} />
       ))}
+      {hasNextPage && (
+        <LoadMoreButton
+          onClick={() => fetchNextPage()}
+          isLoading={isFetchingNextPage}
+        />
+      )}
     </div>
   );
 };
