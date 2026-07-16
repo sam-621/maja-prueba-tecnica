@@ -6,12 +6,13 @@ import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { PageLoader } from '@/shared/components/loader/page-loader';
 import { BlogActions } from '@/lib/blog/components/blog-actions/blog-actions';
+import { CommentsSection } from '@/lib/comment/components/comments-section';
 import { useBlog } from '@/lib/blog/hooks/use-blog';
 import { getStatusLabel } from '@/lib/blog/constants/status-labels';
 
 export const BlogDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data: blog, isLoading, error } = useBlog(id);
+  const { slug } = useParams<{ slug: string }>();
+  const { data: blog, isLoading, error } = useBlog(slug);
 
   if (isLoading) return <PageLoader />;
 
@@ -49,6 +50,8 @@ export const BlogDetailPage = () => {
       </header>
 
       <MarkdownPreview content={blog.content} />
+
+      <CommentsSection blogId={blog.id} />
     </article>
   );
 };

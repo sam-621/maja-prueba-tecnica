@@ -32,7 +32,7 @@ describe('POST /blogs/:blogId/comments - e2e', async () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.data).toMatchObject({
       content: 'Nice post!',
-      postId: BlogConstants.ID,
+      blogId: BlogConstants.ID,
       authorId: UserConstants.ID
     });
     expect(res.body.data?.id).toMatch(TestUtils.Regex.UUID);

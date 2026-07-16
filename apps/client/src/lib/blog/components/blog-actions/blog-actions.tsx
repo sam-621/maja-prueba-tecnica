@@ -37,7 +37,7 @@ export const BlogActions = ({ blog }: Props) => {
           }
         />
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => navigate(`/blogs/${blog.id}/edit`)}>
+          <DropdownMenuItem onClick={() => navigate(`/blogs/${blog.slug}/edit`)}>
             <Pencil />
             Editar
           </DropdownMenuItem>

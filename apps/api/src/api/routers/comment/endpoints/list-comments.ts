@@ -34,7 +34,7 @@ export class ListCommentsEndpoint extends Endpoint {
     const blogId = req.params.blogId as string;
     const { page, size } = listCommentsQuerySchema.parse(req.query);
 
-    const blog = await repositories.post.findOneBy({ id: blogId });
+    const blog = await repositories.blog.findOneBy({ id: blogId });
 
     if (!blog) {
       throw new BlogNotFound();
@@ -44,7 +44,7 @@ export class ListCommentsEndpoint extends Endpoint {
       .createQueryBuilder('comment')
       .leftJoin('comment.author', 'author')
       .addSelect(['author.id', 'author.fullname', 'author.email'])
-      .where('comment.postId = :blogId', { blogId })
+      .where('comment.blogId = :blogId', { blogId })
       .orderBy('comment.createdAt', 'DESC')
       .addOrderBy('comment.id', 'ASC')
       .skip((page - 1) * size)

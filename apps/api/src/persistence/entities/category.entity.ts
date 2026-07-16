@@ -1,7 +1,7 @@
 import { Column, Entity, Index, ManyToMany } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
-import { Post } from './post.entity';
+import { Blog } from './blog.entity';
 
 @Entity('category')
 export class Category extends BaseEntity {
@@ -13,6 +13,6 @@ export class Category extends BaseEntity {
   @Column({ type: 'varchar', length: 120 })
   slug!: string;
 
-  @ManyToMany(() => Post, post => post.categories)
-  posts!: Post[];
+  @ManyToMany(() => Blog, blog => blog.categories)
+  blogs!: Blog[];
 }

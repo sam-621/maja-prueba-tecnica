@@ -1,8 +1,8 @@
-import { PenLine } from 'lucide-react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useUser } from '@/shared/contexts/user-context';
 import { ButtonLink } from '@/shared/components/ui/button-link';
+import { Logo } from '@/shared/components/ui/logo';
 
 import { UserMenu } from './user-menu';
 
@@ -14,8 +14,8 @@ export const SiteLayout = () => {
       <header className="sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-6">
           <Link to="/" className="flex items-center gap-2 font-medium">
-            <PenLine className="size-4" />
-            Blog
+            <Logo className="size-5" />
+            majablog
           </Link>
 
           <div className="flex items-center gap-2">

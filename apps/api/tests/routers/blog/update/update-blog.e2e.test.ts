@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import type { Category, Post } from '@/persistence/entities';
+import type { Blog,Category } from '@/persistence/entities';
 import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
 
@@ -8,7 +8,7 @@ import { BlogConstants, BlogFixtures } from './fixtures/blog.fixtures';
 import { CategoryConstants, CategoryFixtures } from './fixtures/category.fixtures';
 import { UserConstants, UserFixtures } from './fixtures/user.fixtures';
 
-type BlogWithCategories = Post & { categories: Category[] };
+type BlogWithCategories = Blog & { categories: Category[] };
 
 describe('PATCH /blogs/:id - e2e', async () => {
   const testUtils = new TestUtils();
@@ -30,7 +30,7 @@ describe('PATCH /blogs/:id - e2e', async () => {
   });
 
   test('updates the provided fields of an owned blog', async () => {
-    const res = await testServer.patch<Post>(
+    const res = await testServer.patch<Blog>(
       `/blogs/${BlogConstants.ID}`,
       { title: 'Updated title', status: 'published' },
       { headers: authHeader }

@@ -35,7 +35,7 @@ export const App = () => {
             <Routes>
               <Route element={<SiteLayout />}>
                 <Route path="/" element={<BlogsFeedPage />} />
-                <Route path="/blogs/:id" element={<BlogDetailPage />} />
+                <Route path="/blogs/:slug" element={<BlogDetailPage />} />
 
                 <Route
                   path="/profile"
@@ -56,7 +56,7 @@ export const App = () => {
                 />
 
                 <Route
-                  path="/blogs/:id/edit"
+                  path="/blogs/:slug/edit"
                   element={
                     <Protect>
                       <EditBlogPage />

@@ -5,11 +5,11 @@ import type { Blog } from '@/lib/api/types';
 
 import { BlogCacheKeys } from '../constants/cache-keys';
 
-export const useBlog = (id: string | undefined) => {
+export const useBlog = (slug: string | undefined) => {
   return useQuery({
-    queryKey: [BlogCacheKeys.Detail, id],
+    queryKey: [BlogCacheKeys.Detail, slug],
     queryFn: ({ signal }) =>
-      restFetcher<Blog>(`/blogs/${id}`, { method: 'GET', signal }),
-    enabled: !!id,
+      restFetcher<Blog>(`/blogs/${slug}`, { method: 'GET', signal }),
+    enabled: !!slug,
   });
 };

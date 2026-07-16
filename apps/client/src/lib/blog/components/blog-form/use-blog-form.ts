@@ -58,7 +58,7 @@ export const useBlogForm = (blog?: Blog | null) => {
     }
 
     toast.success(isUpdate ? 'Publicación actualizada' : 'Publicación creada');
-    navigate(`/blogs/${result.blog.id}`);
+    navigate(`/blogs/${result.blog.slug}`);
   });
 
   return { form, onSubmit, isUpdate, isLoading: isCreating || isUpdating };

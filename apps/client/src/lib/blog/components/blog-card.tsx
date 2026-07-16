@@ -15,7 +15,7 @@ type Props = {
 
 export const BlogCard = ({ blog, showStatus }: Props) => {
   return (
-    <Link to={`/blogs/${blog.id}`} className="block">
+    <Link to={`/blogs/${blog.slug}`} className="block">
       <Card className="transition-colors hover:border-ring">
         <CardHeader>
           <CardTitle className="text-base">{blog.title}</CardTitle>

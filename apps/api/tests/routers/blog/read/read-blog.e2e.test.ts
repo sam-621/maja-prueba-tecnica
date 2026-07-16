@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import type { Post } from '@/persistence/entities';
+import type { Blog } from '@/persistence/entities';
 import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
 
@@ -21,7 +21,7 @@ describe('GET /blogs/:slug - e2e', async () => {
   });
 
   test('returns the blog for an existing slug without authentication', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.Slug}`);
+    const res = await testServer.get<Blog>(`/blogs/${BlogConstants.Slug}`);
 
     expect(res.statusCode).toBe(200);
     expect(res.body.data).toMatchObject({
@@ -35,7 +35,7 @@ describe('GET /blogs/:slug - e2e', async () => {
   });
 
   test('includes the categories of the blog', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.Slug}`);
+    const res = await testServer.get<Blog>(`/blogs/${BlogConstants.Slug}`);
 
     expect(res.body.data?.categories).toEqual([
       expect.objectContaining({

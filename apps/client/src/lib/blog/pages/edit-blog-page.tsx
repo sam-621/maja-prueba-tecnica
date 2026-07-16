@@ -7,8 +7,8 @@ import { BlogForm } from '@/lib/blog/components/blog-form/blog-form';
 import { useBlog } from '@/lib/blog/hooks/use-blog';
 
 export const EditBlogPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data: blog, isLoading, error } = useBlog(id);
+  const { slug } = useParams<{ slug: string }>();
+  const { data: blog, isLoading, error } = useBlog(slug);
 
   if (isLoading) return <PageLoader />;
 
@@ -30,7 +30,7 @@ export const EditBlogPage = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <ButtonLink
-          to={`/blogs/${blog.id}`}
+          to={`/blogs/${blog.slug}`}
           variant="ghost"
           size="sm"
           className="self-start"

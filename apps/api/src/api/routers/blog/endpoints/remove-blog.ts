@@ -25,7 +25,7 @@ export class RemoveBlogEndpoint extends Endpoint {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
     const id = req.params.id as string;
 
-    const blog = await repositories.post.findOneBy({ id });
+    const blog = await repositories.blog.findOneBy({ id });
 
     if (!blog) {
       throw new BlogNotFound();
@@ -35,7 +35,7 @@ export class RemoveBlogEndpoint extends Endpoint {
       throw new BlogForbidden();
     }
 
-    await repositories.post.remove(blog);
+    await repositories.blog.remove(blog);
 
     return new EndpointResult(200, { id });
   }

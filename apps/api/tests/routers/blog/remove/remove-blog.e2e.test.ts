@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { Post } from '@/persistence/entities';
+import { Blog } from '@/persistence/entities';
 import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
 
@@ -30,7 +30,7 @@ describe('DELETE /blogs/:id - e2e', async () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.data).toMatchObject({ id: BlogConstants.ID });
 
-    const persisted = await testUtils.getRepository(Post).findOneBy({
+    const persisted = await testUtils.getRepository(Blog).findOneBy({
       id: BlogConstants.ID
     });
 
@@ -52,7 +52,7 @@ describe('DELETE /blogs/:id - e2e', async () => {
 
     expect(res.body.errorCode).toBe('BLOG_FORBIDDEN');
 
-    const persisted = await testUtils.getRepository(Post).findOneBy({
+    const persisted = await testUtils.getRepository(Blog).findOneBy({
       id: BlogConstants.OTHER_ID
     });
 

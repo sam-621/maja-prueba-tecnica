@@ -20,7 +20,7 @@ export class GetBlogEndpoint extends Endpoint {
     const { repositories } = res.locals.ctx as RequestContext;
     const slug = req.params.slug as string;
 
-    const blog = await repositories.post.findOne({
+    const blog = await repositories.blog.findOne({
       where: { slug },
       relations: { categories: true }
     });

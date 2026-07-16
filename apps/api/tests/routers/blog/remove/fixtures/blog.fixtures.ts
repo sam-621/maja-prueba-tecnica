@@ -1,4 +1,4 @@
-import { Post } from '@/persistence/entities';
+import { Blog } from '@/persistence/entities';
 import type { Fixture } from '@/tests/fixtures/fixture';
 import { TestUtils } from '@/tests/utils/test-utils';
 
@@ -11,10 +11,10 @@ export const BlogConstants = {
   Content: 'Content to remove'
 };
 
-export class BlogFixtures implements Fixture<Post> {
-  entity = Post;
+export class BlogFixtures implements Fixture<Blog> {
+  entity = Blog;
 
-  async build(): Promise<Partial<Post>[]> {
+  async build(): Promise<Partial<Blog>[]> {
     return [
       {
         id: BlogConstants.ID,

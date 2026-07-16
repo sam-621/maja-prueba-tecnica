@@ -1,6 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as React from 'react';
 
+import { LOGO_PATH, LOGO_VIEWBOX } from '@/shared/branding/logo';
+
 type Theme = 'dark' | 'light' | 'system';
 type ResolvedTheme = 'dark' | 'light';
 
@@ -37,6 +39,22 @@ function getSystemTheme(): ResolvedTheme {
   }
 
   return 'light';
+}
+
+function updateFavicon(resolvedTheme: ResolvedTheme) {
+  const fill = resolvedTheme === 'dark' ? '#ffffff' : '#000000';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="${LOGO_VIEWBOX}"><path fill="${fill}" d="${LOGO_PATH}"/></svg>`;
+  const href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+  let link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.head.appendChild(link);
+  }
+
+  link.type = 'image/svg+xml';
+  link.href = href;
 }
 
 function disableTransitionsTemporarily() {
@@ -112,6 +130,7 @@ export function ThemeProvider({
 
       root.classList.remove('light', 'dark');
       root.classList.add(resolvedTheme);
+      updateFavicon(resolvedTheme);
 
       if (restoreTransitions) {
         restoreTransitions();

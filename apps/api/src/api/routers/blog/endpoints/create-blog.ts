@@ -37,7 +37,7 @@ export class CreateBlogEndpoint extends Endpoint {
 
     const slug = await this.generateUniqueSlug(repositories, input.title);
 
-    const blog = await repositories.post.save({
+    const blog = await repositories.blog.save({
       title: input.title,
       slug,
       content: input.content,
@@ -53,11 +53,11 @@ export class CreateBlogEndpoint extends Endpoint {
     repositories: RequestContext['repositories'],
     title: string
   ): Promise<string> {
-    const base = slugify(title) || 'post';
+    const base = slugify(title) || 'blog';
     let candidate = base;
     let suffix = 2;
 
-    while (await repositories.post.findOneBy({ slug: candidate })) {
+    while (await repositories.blog.findOneBy({ slug: candidate })) {
       candidate = `${base}-${suffix}`;
       suffix++;
     }

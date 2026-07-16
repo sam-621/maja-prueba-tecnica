@@ -7,6 +7,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   BLOG_FORBIDDEN: 'No tienes permiso para modificar este blog.',
   UNAUTHORIZED: 'Tu sesión expiró, por favor inicia sesión de nuevo.',
   CATEGORY_ALREADY_EXISTS: 'Esa categoría ya existe.',
+  COMMENT_NOT_FOUND: 'Este comentario ya no existe.',
+  COMMENT_FORBIDDEN: 'No tienes permiso para modificar este comentario.',
 };
 
 export const getErrorMessage = (code?: string): string => {

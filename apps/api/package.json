@@ -7,7 +7,9 @@
     "dev": "NODE_ENV=local tsx watch src/index.ts",
     "test": "vitest run --project unit",
     "test:int": "bash ./tests/it-tests.sh",
-    "test:e2e": "bash ./tests/it-tests.sh --project e2e"
+    "test:e2e": "bash ./tests/it-tests.sh --project e2e",
+    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint ."
   },
   "dependencies": {
     "@types/bcrypt": "^6.0.0",

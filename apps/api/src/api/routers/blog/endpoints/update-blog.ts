@@ -40,7 +40,7 @@ export class UpdateBlogEndpoint extends Endpoint {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
     const id = req.params.id as string;
 
-    const blog = await repositories.post.findOne({
+    const blog = await repositories.blog.findOne({
       where: { id },
       relations: { categories: true }
     });
@@ -59,7 +59,7 @@ export class UpdateBlogEndpoint extends Endpoint {
       blog.categories = await this.resolveCategories(repositories, categoryIds);
     }
 
-    const updated = await repositories.post.save({ ...blog, ...input });
+    const updated = await repositories.blog.save({ ...blog, ...input });
 
     return new EndpointResult(200, updated);
   }

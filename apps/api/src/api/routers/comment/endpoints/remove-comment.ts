@@ -26,7 +26,7 @@ export class RemoveCommentEndpoint extends Endpoint {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
     const { blogId, id } = req.params as { blogId: string; id: string };
 
-    const comment = await repositories.comment.findOneBy({ id, postId: blogId });
+    const comment = await repositories.comment.findOneBy({ id, blogId });
 
     if (!comment) {
       throw new CommentNotFound();

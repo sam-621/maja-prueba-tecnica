@@ -4,14 +4,14 @@ import { config } from '@/config';
 
 import { logger } from '../logger/logger';
 
-import { Category, Comment, Post, User } from './entities';
+import { Blog, Category, Comment, User } from './entities';
 
 const isTest = config.env === 'test';
 
 export const dataSource = new DataSource({
   type: 'postgres',
   url: config.dbUrl,
-  entities: [User, Post, Category, Comment],
+  entities: [User, Blog, Category, Comment],
   synchronize: true,
   dropSchema: isTest,
   logging: isTest ? false : ['error', 'warn']

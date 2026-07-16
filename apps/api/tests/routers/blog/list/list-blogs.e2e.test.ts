@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import type { Post } from '@/persistence/entities';
+import type { Blog } from '@/persistence/entities';
 import type { TestResponse } from '@/tests/utils/test-server';
 import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
@@ -10,7 +10,7 @@ import { CategoryConstants, CategoryFixtures } from './fixtures/category.fixture
 import { UserFixtures } from './fixtures/user.fixtures';
 
 type ListResponse = {
-  blogs: Post[];
+  blogs: Blog[];
   pageInfo: {
     page: number;
     size: number;

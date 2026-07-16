@@ -1,13 +1,13 @@
 import type { DataSource, Repository } from 'typeorm';
 
-import { Category, Comment, Post, User } from '@/persistence/entities';
+import { Blog, Category, Comment, User } from '@/persistence/entities';
 
 import type { EndpointFn } from './routers/endpoint';
 
 export type RequestContext = {
   repositories: {
     user: Repository<User>;
-    post: Repository<Post>;
+    blog: Repository<Blog>;
     comment: Repository<Comment>;
     category: Repository<Category>;
   };
@@ -21,7 +21,7 @@ export const requestContextMiddleware =
       ctx: {
         repositories: {
           user: dataSource.getRepository(User),
-          post: dataSource.getRepository(Post),
+          blog: dataSource.getRepository(Blog),
           comment: dataSource.getRepository(Comment),
           category: dataSource.getRepository(Category)
         }

@@ -37,7 +37,7 @@ export class CreateCommentEndpoint extends Endpoint {
     const blogId = req.params.blogId as string;
     const input = req.body as CreateCommentInput;
 
-    const blog = await repositories.post.findOneBy({ id: blogId });
+    const blog = await repositories.blog.findOneBy({ id: blogId });
 
     if (!blog) {
       throw new BlogNotFound();
@@ -45,7 +45,7 @@ export class CreateCommentEndpoint extends Endpoint {
 
     const comment = await repositories.comment.save({
       content: input.content,
-      postId: blogId,
+      blogId,
       authorId: currentUser.id
     });
 

@@ -3,7 +3,7 @@ import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
 import { queryValidationMiddleware } from '@/api/shared/middlewares/query-validation';
-import { Post } from '@/persistence/entities';
+import { Blog } from '@/persistence/entities';
 
 import { Endpoint, EndpointResult } from '../../endpoint';
 
@@ -27,7 +27,7 @@ export class ListBlogsEndpoint extends Endpoint {
     const { repositories } = res.locals.ctx as RequestContext;
     const { page, size, search, categoryIds } = listBlogsQuerySchema.parse(req.query);
 
-    const query = repositories.post
+    const query = repositories.blog
       .createQueryBuilder('blog')
       .leftJoin('blog.author', 'author')
       .addSelect(['author.id', 'author.fullname', 'author.email'])
@@ -45,9 +45,9 @@ export class ListBlogsEndpoint extends Endpoint {
     if (categoryIds?.length) {
       const matchingBlogIds = query
         .subQuery()
-        .select('post.id')
-        .from(Post, 'post')
-        .innerJoin('post.categories', 'category')
+        .select('blogSub.id')
+        .from(Blog, 'blogSub')
+        .innerJoin('blogSub.categories', 'category')
         .where('category.id IN (:...categoryIds)')
         .getQuery();
 

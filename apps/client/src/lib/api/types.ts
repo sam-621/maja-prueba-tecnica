@@ -25,11 +25,22 @@ export type Category = {
 export type Blog = {
   id: string;
   title: string;
+  slug: string;
   content: string;
   status: BlogStatus;
   authorId: string;
   author?: Author;
   categories?: Category[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Comment = {
+  id: string;
+  content: string;
+  postId: string;
+  authorId: string;
+  author?: Author;
   createdAt: string;
   updatedAt: string;
 };
@@ -74,6 +85,15 @@ export type ListCategoriesParams = {
 
 export type CreateCategoryInput = {
   name: string;
+};
+
+export type CommentsResponse = {
+  comments: Comment[];
+  pageInfo: PageInfo;
+};
+
+export type CreateCommentInput = {
+  content: string;
 };
 
 export type LoginInput = {

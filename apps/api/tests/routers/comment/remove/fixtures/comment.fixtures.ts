@@ -18,13 +18,13 @@ export class CommentFixtures implements Fixture<Comment> {
       {
         id: CommentConstants.ID,
         content: 'My comment',
-        postId: BlogConstants.ID,
+        blogId: BlogConstants.ID,
         authorId: UserConstants.ID
       },
       {
         id: CommentConstants.OTHER_ID,
         content: 'Someone else comment',
-        postId: BlogConstants.ID,
+        blogId: BlogConstants.ID,
         authorId: OtherUserConstants.ID
       }
     ];

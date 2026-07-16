@@ -1,6 +1,6 @@
-import type { Post } from '@/persistence/entities';
+import type { Blog } from '@/persistence/entities';
 
-export const DefaultPostFixture = (): Partial<Post> => ({
+export const DefaultBlogFixture = (): Partial<Blog> => ({
   id: crypto.randomUUID(),
   title: 'Test Post',
   content: 'Test post content',

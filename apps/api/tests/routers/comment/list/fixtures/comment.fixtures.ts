@@ -14,7 +14,7 @@ export class CommentFixtures implements Fixture<Comment> {
   async build(): Promise<Partial<Comment>[]> {
     return Array.from({ length: CommentConstants.COUNT }, (_, index) => ({
       content: `Comment number ${index + 1}`,
-      postId: BlogConstants.ID,
+      blogId: BlogConstants.ID,
       authorId: UserConstants.ID
     }));
   }

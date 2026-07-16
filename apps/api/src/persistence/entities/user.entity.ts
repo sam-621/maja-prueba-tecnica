@@ -1,8 +1,8 @@
 import { Column, Entity, Index, OneToMany } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
+import { Blog } from './blog.entity';
 import { Comment } from './comment.entity';
-import { Post } from './post.entity';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -16,8 +16,8 @@ export class User extends BaseEntity {
   @Column({ name: 'password_hash', type: 'varchar', length: 255 })
   passwordHash!: string;
 
-  @OneToMany(() => Post, post => post.author)
-  posts!: Post[];
+  @OneToMany(() => Blog, blog => blog.author)
+  blogs!: Blog[];
 
   @OneToMany(() => Comment, comment => comment.author)
   comments!: Comment[];
