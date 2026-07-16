@@ -4,7 +4,7 @@ export abstract class Endpoint {
   constructor(
     readonly route: `/${string}`,
     readonly middlewares: EndpointFn[],
-    readonly httpMethod: 'get' | 'post' | 'put' | 'patch'
+    readonly httpMethod: 'get' | 'post' | 'put' | 'patch' | 'delete'
   ) {}
 
   abstract execute(req: Request, res: Response): Promise<EndpointResult>;

@@ -16,7 +16,7 @@ type RequestOptions = {
   shouldFail?: boolean;
 };
 
-type HttpMethod = 'get' | 'post' | 'put' | 'patch';
+type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export type ResponseBody<D = unknown> = {
   data?: D;
@@ -53,6 +53,10 @@ export class TestServer {
 
   patch<D = unknown>(path: string, body?: unknown, options?: RequestOptions) {
     return this.request<D>('patch', path, body, options);
+  }
+
+  delete<D = unknown>(path: string, options?: RequestOptions) {
+    return this.request<D>('delete', path, undefined, options);
   }
 
   private async request<D>(
