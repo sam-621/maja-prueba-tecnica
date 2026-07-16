@@ -1,17 +1,23 @@
-import type { DataSource } from 'typeorm';
+import type { DataSource, Repository } from 'typeorm';
 
-import type { Endpoint } from './api-types';
+import { User } from '@/persistence/entities';
+
+import type { EndpointFn } from './routers/endpoint';
 
 export type RequestContext = {
-  dataSource: DataSource;
+  repositories: {
+    user: Repository<User>;
+  };
 };
 
 export const requestContextMiddleware =
-  (dataSource: DataSource): Endpoint =>
+  (dataSource: DataSource): EndpointFn =>
   (_, res, next) => {
     res.locals = {
-      context: {
-        dataSource
+      ctx: {
+        repositories: {
+          user: dataSource.getRepository(User)
+        }
       } satisfies RequestContext
     };
 
