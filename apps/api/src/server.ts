@@ -6,6 +6,7 @@ import express from 'express';
 import { requestContextMiddleware } from './api/request-context';
 import { AuthRouter } from './api/routers/auth';
 import { BlogRouter } from './api/routers/blog';
+import { CommentRouter } from './api/routers/comment';
 import { initDataSource } from './persistence/data-source';
 import { config } from './config';
 import { logger } from './logger';
@@ -25,9 +26,11 @@ export class Server {
 
     const authRouter = new AuthRouter();
     const blogRouter = new BlogRouter();
+    const commentRouter = new CommentRouter();
 
     this.app.use(authRouter.router);
     this.app.use(blogRouter.router);
+    this.app.use(commentRouter.router);
   }
 
   getApp() {
