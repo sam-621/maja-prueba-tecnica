@@ -12,13 +12,6 @@ describe('GET /blogs/:id - e2e', async () => {
   const testUtils = new TestUtils();
   const testServer = await TestServer.create();
 
-  const authToken = TestUtils.generateJWT({
-    sub: UserConstants.ID,
-    email: UserConstants.Email
-  });
-
-  const authHeader = { authorization: `Bearer ${authToken}` };
-
   beforeEach(async () => {
     await testUtils.loadFixtures([
       new UserFixtures(),
@@ -27,10 +20,8 @@ describe('GET /blogs/:id - e2e', async () => {
     ]);
   });
 
-  test('returns the blog for an existing id', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`, {
-      headers: authHeader
-    });
+  test('returns the blog for an existing id without authentication', async () => {
+    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`);
 
     expect(res.statusCode).toBe(200);
     expect(res.body.data).toMatchObject({
@@ -43,9 +34,7 @@ describe('GET /blogs/:id - e2e', async () => {
   });
 
   test('includes the categories of the blog', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`, {
-      headers: authHeader
-    });
+    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`);
 
     expect(res.body.data?.categories).toEqual([
       expect.objectContaining({
@@ -57,22 +46,14 @@ describe('GET /blogs/:id - e2e', async () => {
   });
 
   test('responds BLOG_NOT_FOUND for an unknown id', async () => {
-    const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}`, {
-      headers: authHeader
-    });
+    const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}`);
 
     expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds 400 for a malformed id', async () => {
-    const res = await testServer.get('/blogs/not-a-uuid', { headers: authHeader });
+    const res = await testServer.get('/blogs/not-a-uuid');
 
     expect(res.statusCode).toBe(400);
-  });
-
-  test('responds 401 when no authorization header is provided', async () => {
-    const res = await testServer.get(`/blogs/${BlogConstants.ID}`);
-
-    expect(res.statusCode).toBe(401);
   });
 });
