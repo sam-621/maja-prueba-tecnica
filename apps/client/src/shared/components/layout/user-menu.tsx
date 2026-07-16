@@ -1,4 +1,5 @@
-import { LogOut } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -16,6 +17,7 @@ import { useUser } from '@/shared/contexts/user-context';
 export const UserMenu = () => {
   const { user } = useUser();
   const logout = useLogout();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
@@ -40,6 +42,13 @@ export const UserMenu = () => {
             </span>
           </DropdownMenuLabel>
         </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={() => navigate('/profile')}>
+          <User />
+          Profile
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 

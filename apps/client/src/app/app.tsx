@@ -10,6 +10,7 @@ import { BlogDetailPage } from '@/lib/blog/pages/blog-detail-page';
 import { BlogsFeedPage } from '@/lib/blog/pages/blogs-feed-page';
 import { EditBlogPage } from '@/lib/blog/pages/edit-blog-page';
 import { NewBlogPage } from '@/lib/blog/pages/new-blog-page';
+import { ProfilePage } from '@/lib/profile/pages/profile-page';
 import { SiteLayout } from '@/shared/components/layout/site-layout';
 import { NotFoundPage } from '@/shared/components/not-found-page';
 import { UserContextProvider } from '@/shared/contexts/user-context';
@@ -35,6 +36,15 @@ export const App = () => {
               <Route element={<SiteLayout />}>
                 <Route path="/" element={<BlogsFeedPage />} />
                 <Route path="/blogs/:id" element={<BlogDetailPage />} />
+
+                <Route
+                  path="/profile"
+                  element={
+                    <Protect>
+                      <ProfilePage />
+                    </Protect>
+                  }
+                />
 
                 <Route
                   path="/new"

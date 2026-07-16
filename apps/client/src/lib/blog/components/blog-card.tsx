@@ -6,9 +6,10 @@ import type { Blog } from '@/lib/api/types';
 
 type Props = {
   blog: Blog;
+  showStatus?: boolean;
 };
 
-export const BlogCard = ({ blog }: Props) => {
+export const BlogCard = ({ blog, showStatus }: Props) => {
   return (
     <Link to={`/blogs/${blog.id}`} className="block">
       <Card className="transition-colors hover:border-ring">
@@ -19,10 +20,16 @@ export const BlogCard = ({ blog }: Props) => {
           <p className="line-clamp-2 text-sm text-muted-foreground">
             {blog.content}
           </p>
-          {blog.author && (
-            <Badge variant="outline" className="w-fit">
-              {blog.author.fullname}
+          {showStatus ? (
+            <Badge variant="outline" className="w-fit capitalize">
+              {blog.status}
             </Badge>
+          ) : (
+            blog.author && (
+              <Badge variant="outline" className="w-fit">
+                {blog.author.fullname}
+              </Badge>
+            )
           )}
         </CardContent>
       </Card>
