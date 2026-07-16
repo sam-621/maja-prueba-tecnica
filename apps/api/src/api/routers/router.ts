@@ -32,7 +32,7 @@ export abstract class Router {
       } catch (error) {
         if (error instanceof ApiError) {
           res.status(error.statusCode).json({
-            errorMessage: error.message,
+            message: error.message,
             errorCode: error.code
           });
 

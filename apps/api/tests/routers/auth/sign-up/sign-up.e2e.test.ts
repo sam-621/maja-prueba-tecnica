@@ -26,7 +26,11 @@ describe('POST /signup - e2e', async () => {
   test('returns EMAIL_ALREADY_TAKEN for an existing email', async () => {
     const res = await testServer.post(
       '/signup',
-      { email: UserConstants.Email, password: UserConstants.Password, fullname: 'Jane Doe' },
+      {
+        email: UserConstants.Email,
+        password: UserConstants.Password,
+        fullname: 'Jane Doe'
+      },
       { shouldFail: true }
     );
 

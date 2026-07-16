@@ -26,7 +26,7 @@ const createResponse = () => {
 
 const next = vi.fn() as unknown as NextFunction;
 
-describe('bodyValidationMiddleware - unit', () => {
+describe('bodyValidationMiddleware', () => {
   const middleware = bodyValidationMiddleware(schema);
 
   beforeEach(() => {

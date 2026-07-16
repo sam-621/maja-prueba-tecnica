@@ -8,6 +8,7 @@ export type RequestContext = {
   repositories: {
     user: Repository<User>;
   };
+  currentUser?: User;
 };
 
 export const requestContextMiddleware =
