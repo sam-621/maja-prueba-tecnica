@@ -18,7 +18,7 @@ export abstract class Router {
       this.router[endpoint.httpMethod](
         endpoint.route,
         ...endpoint.middlewares,
-        this.executeEndpointFn(endpoint.execute)
+        this.executeEndpointFn(endpoint.execute.bind(endpoint))
       );
     });
   }

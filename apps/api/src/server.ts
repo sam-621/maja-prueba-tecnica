@@ -7,9 +7,11 @@ import express from 'express';
 import { requestContextMiddleware } from './api/request-context';
 import { AuthRouter } from './api/routers/auth';
 import { BlogRouter } from './api/routers/blog';
+import { CategoryRouter } from './api/routers/category';
 import { CommentRouter } from './api/routers/comment';
 import { ProfileRouter } from './api/routers/profile';
 import { initDataSource } from './persistence/data-source';
+import { seedCategories } from './persistence/seed';
 import { config } from './config';
 import { logger } from './logger';
 
@@ -22,6 +24,7 @@ export class Server {
 
   async init() {
     const dataSource = await initDataSource();
+    await seedCategories(dataSource);
 
     this.app.use(cors({ origin: config.cors, credentials: true }));
     this.app.use(express.json());
@@ -31,11 +34,13 @@ export class Server {
     const profileRouter = new ProfileRouter();
     const blogRouter = new BlogRouter();
     const commentRouter = new CommentRouter();
+    const categoryRouter = new CategoryRouter();
 
     this.app.use(authRouter.router);
     this.app.use(profileRouter.router);
     this.app.use(blogRouter.router);
     this.app.use(commentRouter.router);
+    this.app.use(categoryRouter.router);
   }
 
   getApp() {

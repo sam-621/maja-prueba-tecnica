@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { In } from 'typeorm';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
@@ -16,7 +17,8 @@ const blogParamsSchema = z.object({
 const updateBlogInputSchema = z.object({
   title: z.string().min(1, 'Title should not be empty').optional(),
   content: z.string().min(1, 'Content should not be empty').optional(),
-  status: z.enum(['draft', 'published', 'archived']).optional()
+  status: z.enum(['draft', 'published', 'archived']).optional(),
+  categoryIds: z.array(z.uuid()).optional()
 });
 
 type UpdateBlogInput = z.infer<typeof updateBlogInputSchema>;
@@ -38,7 +40,10 @@ export class UpdateBlogEndpoint extends Endpoint {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
     const id = req.params.id as string;
 
-    const blog = await repositories.post.findOneBy({ id });
+    const blog = await repositories.post.findOne({
+      where: { id },
+      relations: { categories: true }
+    });
 
     if (!blog) {
       throw new BlogNotFound();
@@ -48,10 +53,25 @@ export class UpdateBlogEndpoint extends Endpoint {
       throw new BlogForbidden();
     }
 
-    const input = req.body as UpdateBlogInput;
+    const { categoryIds, ...input } = req.body as UpdateBlogInput;
+
+    if (categoryIds) {
+      blog.categories = await this.resolveCategories(repositories, categoryIds);
+    }
 
     const updated = await repositories.post.save({ ...blog, ...input });
 
     return new EndpointResult(200, updated);
+  }
+
+  private async resolveCategories(
+    repositories: RequestContext['repositories'],
+    categoryIds: string[]
+  ) {
+    const uniqueIds = [...new Set(categoryIds)];
+
+    if (uniqueIds.length === 0) return [];
+
+    return repositories.category.findBy({ id: In(uniqueIds) });
   }
 }
