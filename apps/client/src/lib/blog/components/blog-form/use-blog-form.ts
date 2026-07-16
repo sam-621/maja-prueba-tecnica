@@ -17,8 +17,8 @@ const categorySchema = z.object({
 });
 
 const schema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  content: z.string().min(1, 'Content is required'),
+  title: z.string().min(1, 'El título es obligatorio'),
+  content: z.string().min(1, 'El contenido es obligatorio'),
   status: z.enum(['draft', 'published', 'archived']),
   categories: z.array(categorySchema),
 });
@@ -57,7 +57,7 @@ export const useBlogForm = (blog?: Blog | null) => {
       return;
     }
 
-    toast.success(isUpdate ? 'Post updated' : 'Post created');
+    toast.success(isUpdate ? 'Publicación actualizada' : 'Publicación creada');
     navigate(`/blogs/${result.blog.id}`);
   });
 

@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Blog } from '@/lib/api/types';
 
+import { getStatusLabel } from '../constants/status-labels';
+
 type Props = {
   blog: Blog;
   showStatus?: boolean;
@@ -17,8 +19,8 @@ export const BlogCard = ({ blog, showStatus }: Props) => {
         <CardHeader>
           <CardTitle className="text-base">{blog.title}</CardTitle>
           {showStatus ? (
-            <Badge variant="outline" className="w-fit capitalize">
-              {blog.status}
+            <Badge variant="outline" className="w-fit">
+              {getStatusLabel(blog.status)}
             </Badge>
           ) : (
             blog.author && (

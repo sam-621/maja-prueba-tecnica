@@ -6,6 +6,7 @@ import { ButtonLink } from '@/shared/components/ui/button-link';
 import { PageLoader } from '@/shared/components/loader/page-loader';
 import { BlogActions } from '@/lib/blog/components/blog-actions/blog-actions';
 import { useBlog } from '@/lib/blog/hooks/use-blog';
+import { getStatusLabel } from '@/lib/blog/constants/status-labels';
 
 export const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,10 +17,12 @@ export const BlogDetailPage = () => {
   if (error || !blog) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <p className="text-muted-foreground">This post is not available.</p>
+        <p className="text-muted-foreground">
+          Esta publicación no está disponible.
+        </p>
         <ButtonLink to="/" variant="outline">
           <ArrowLeft />
-          Back to feed
+          Volver al feed
         </ButtonLink>
       </div>
     );
@@ -29,15 +32,15 @@ export const BlogDetailPage = () => {
     <article className="flex flex-col gap-6">
       <ButtonLink to="/" variant="ghost" size="sm" className="self-start">
         <ArrowLeft />
-        Back
+        Volver
       </ButtonLink>
 
       <header className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-semibold">{blog.title}</h1>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {blog.author && <span>by {blog.author.fullname}</span>}
-            <Badge variant="outline">{blog.status}</Badge>
+            {blog.author && <span>por {blog.author.fullname}</span>}
+            <Badge variant="outline">{getStatusLabel(blog.status)}</Badge>
           </div>
         </div>
 

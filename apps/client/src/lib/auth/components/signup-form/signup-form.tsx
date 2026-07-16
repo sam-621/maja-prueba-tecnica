@@ -17,10 +17,10 @@ export const SignupForm = () => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       <Field>
-        <FieldLabel htmlFor="fullname">Full name</FieldLabel>
+        <FieldLabel htmlFor="fullname">Nombre completo</FieldLabel>
         <Input
           id="fullname"
-          placeholder="Jane Doe"
+          placeholder="Juan Pérez"
           autoComplete="name"
           aria-invalid={!!errors.fullname}
           {...register('fullname')}
@@ -29,11 +29,11 @@ export const SignupForm = () => {
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="email">Email</FieldLabel>
+        <FieldLabel htmlFor="email">Correo electrónico</FieldLabel>
         <Input
           id="email"
           type="email"
-          placeholder="you@example.com"
+          placeholder="tu@ejemplo.com"
           autoComplete="email"
           aria-invalid={!!errors.email}
           {...register('email')}
@@ -42,11 +42,11 @@ export const SignupForm = () => {
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="password">Password</FieldLabel>
+        <FieldLabel htmlFor="password">Contraseña</FieldLabel>
         <Input
           id="password"
           type="password"
-          placeholder="At least 8 characters"
+          placeholder="Al menos 8 caracteres"
           autoComplete="new-password"
           aria-invalid={!!errors.password}
           {...register('password')}
@@ -56,16 +56,16 @@ export const SignupForm = () => {
 
       <Button type="submit" size="lg" disabled={isLoading} className="mt-1">
         {isLoading && <Loader2 className="animate-spin" />}
-        Create account
+        Crear cuenta
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Already have an account?{' '}
+        ¿Ya tienes una cuenta?{' '}
         <Link
           to="/login"
           className="font-medium text-foreground hover:underline"
         >
-          Log in
+          Iniciar sesión
         </Link>
       </p>
     </form>

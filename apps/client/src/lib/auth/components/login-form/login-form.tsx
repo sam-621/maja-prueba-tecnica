@@ -17,11 +17,11 @@ export const LoginForm = () => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       <Field>
-        <FieldLabel htmlFor="email">Email</FieldLabel>
+        <FieldLabel htmlFor="email">Correo electrónico</FieldLabel>
         <Input
           id="email"
           type="email"
-          placeholder="you@example.com"
+          placeholder="tu@ejemplo.com"
           autoComplete="email"
           aria-invalid={!!errors.email}
           {...register('email')}
@@ -30,7 +30,7 @@ export const LoginForm = () => {
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="password">Password</FieldLabel>
+        <FieldLabel htmlFor="password">Contraseña</FieldLabel>
         <Input
           id="password"
           type="password"
@@ -44,16 +44,16 @@ export const LoginForm = () => {
 
       <Button type="submit" size="lg" disabled={isLoading} className="mt-1">
         {isLoading && <Loader2 className="animate-spin" />}
-        Log in
+        Iniciar sesión
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{' '}
+        ¿No tienes una cuenta?{' '}
         <Link
           to="/signup"
           className="font-medium text-foreground hover:underline"
         >
-          Sign up
+          Regístrate
         </Link>
       </p>
     </form>

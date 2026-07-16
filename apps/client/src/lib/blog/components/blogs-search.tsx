@@ -13,7 +13,7 @@ export const BlogsSearch = () => {
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search posts by title..."
+        placeholder="Buscar publicaciones por título..."
         className="pl-8"
       />
     </div>

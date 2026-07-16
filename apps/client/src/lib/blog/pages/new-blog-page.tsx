@@ -9,9 +9,9 @@ export const NewBlogPage = () => {
       <div className="flex flex-col gap-2">
         <ButtonLink to="/" variant="ghost" size="sm" className="self-start">
           <ArrowLeft />
-          Back
+          Volver
         </ButtonLink>
-        <h1 className="text-2xl font-semibold">Write a post</h1>
+        <h1 className="text-2xl font-semibold">Escribir una publicación</h1>
       </div>
 
       <BlogForm />

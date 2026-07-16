@@ -7,9 +7,9 @@ import { z } from 'zod';
 import { useSignup } from '../../hooks/use-signup';
 
 const schema = z.object({
-  fullname: z.string().min(1, 'Your name is required'),
-  email: z.email('Enter a valid email'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  fullname: z.string().min(1, 'Tu nombre es obligatorio'),
+  email: z.email('Introduce un correo válido'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
 });
 
 export type SignupFormInput = z.infer<typeof schema>;

@@ -14,15 +14,15 @@ export const BlogsFeedPage = () => {
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold">Latest posts</h1>
+            <h1 className="text-2xl font-semibold">Últimas publicaciones</h1>
             <p className="text-sm text-muted-foreground">
-              Read what the community is publishing.
+              Lee lo que la comunidad está publicando.
             </p>
           </div>
           {isSignedIn && (
             <ButtonLink to="/new">
               <PenLine />
-              Write a post
+              Escribir
             </ButtonLink>
           )}
         </div>

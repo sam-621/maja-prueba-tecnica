@@ -15,10 +15,12 @@ export const EditBlogPage = () => {
   if (error || !blog) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <p className="text-muted-foreground">This post is not available.</p>
+        <p className="text-muted-foreground">
+          Esta publicación no está disponible.
+        </p>
         <ButtonLink to="/" variant="outline">
           <ArrowLeft />
-          Back to feed
+          Volver al feed
         </ButtonLink>
       </div>
     );
@@ -34,9 +36,9 @@ export const EditBlogPage = () => {
           className="self-start"
         >
           <ArrowLeft />
-          Back
+          Volver
         </ButtonLink>
-        <h1 className="text-2xl font-semibold">Edit post</h1>
+        <h1 className="text-2xl font-semibold">Editar publicación</h1>
       </div>
 
       <BlogForm blog={blog} />

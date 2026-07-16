@@ -24,10 +24,10 @@ export const SiteLayout = () => {
             ) : (
               <>
                 <ButtonLink to="/login" variant="ghost" size="sm">
-                  Log in
+                  Iniciar sesión
                 </ButtonLink>
                 <ButtonLink to="/signup" size="sm">
-                  Sign up
+                  Registrarse
                 </ButtonLink>
               </>
             )}

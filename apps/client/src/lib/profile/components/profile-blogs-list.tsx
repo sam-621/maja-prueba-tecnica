@@ -28,8 +28,8 @@ export const ProfileBlogsList = () => {
   if (error) {
     return (
       <EmptyState
-        title="Couldn't load your posts"
-        subtitle="Your posts aren't available right now."
+        title="No se pudieron cargar tus publicaciones"
+        subtitle="Tus publicaciones no están disponibles en este momento."
       />
     );
   }
@@ -37,11 +37,11 @@ export const ProfileBlogsList = () => {
   if (!blogs.length) {
     return (
       <EmptyState
-        title="No posts yet"
+        title="Aún no hay publicaciones"
         subtitle={
           debouncedSearch
-            ? 'No posts match your search.'
-            : "You haven't written anything yet."
+            ? 'Ninguna publicación coincide con tu búsqueda.'
+            : 'Aún no has escrito nada.'
         }
       />
     );

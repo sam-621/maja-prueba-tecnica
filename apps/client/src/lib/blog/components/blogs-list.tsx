@@ -26,8 +26,8 @@ export const BlogsList = () => {
   if (error) {
     return (
       <EmptyState
-        title="Couldn't load posts"
-        subtitle="The blog feed isn't available right now."
+        title="No se pudieron cargar las publicaciones"
+        subtitle="El feed del blog no está disponible en este momento."
       />
     );
   }
@@ -35,11 +35,11 @@ export const BlogsList = () => {
   if (!blogs.length) {
     return (
       <EmptyState
-        title="No posts yet"
+        title="Aún no hay publicaciones"
         subtitle={
           debouncedSearch
-            ? 'No posts match your search.'
-            : 'Be the first to publish something.'
+            ? 'Ninguna publicación coincide con tu búsqueda.'
+            : 'Sé el primero en publicar algo.'
         }
       />
     );

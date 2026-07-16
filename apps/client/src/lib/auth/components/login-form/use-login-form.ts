@@ -7,8 +7,8 @@ import { z } from 'zod';
 import { useLogin } from '../../hooks/use-login';
 
 const schema = z.object({
-  email: z.email('Enter a valid email'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.email('Introduce un correo válido'),
+  password: z.string().min(1, 'La contraseña es obligatoria'),
 });
 
 export type LoginFormInput = z.infer<typeof schema>;

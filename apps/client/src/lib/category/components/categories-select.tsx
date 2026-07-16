@@ -85,7 +85,7 @@ export const CategoriesSelect = ({ value, onChange, id, invalid }: Props) => {
         </ComboboxValue>
         <ComboboxChipsInput
           id={id}
-          placeholder={value.length ? '' : 'Select or create categories...'}
+          placeholder={value.length ? '' : 'Selecciona o crea categorías...'}
         />
       </ComboboxChips>
 
@@ -115,13 +115,13 @@ export const CategoriesSelect = ({ value, onChange, id, invalid }: Props) => {
             ) : (
               <Plus className="size-4" />
             )}
-            <span className="truncate">Create &ldquo;{trimmedQuery}&rdquo;</span>
+            <span className="truncate">Crear &ldquo;{trimmedQuery}&rdquo;</span>
           </button>
         )}
 
         {!filtered.length && !canCreate && (
           <div className="py-2 text-center text-sm text-muted-foreground">
-            No categories found.
+            No se encontraron categorías.
           </div>
         )}
       </ComboboxContent>

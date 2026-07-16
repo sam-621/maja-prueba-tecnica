@@ -17,7 +17,7 @@ export const LoadMoreButton = ({ onClick, isLoading }: Props) => {
       className="self-center"
     >
       {isLoading && <Loader2 className="animate-spin" />}
-      Load more
+      Cargar más
     </Button>
   );
 };

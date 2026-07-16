@@ -37,14 +37,14 @@ export const ProfilePage = () => {
 
           <ButtonLink to="/new">
             <PenLine />
-            Write a post
+            Escribir
           </ButtonLink>
         </div>
 
         <Separator />
 
         <div className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Search your posts</h2>
+          <h2 className="text-lg font-semibold">Busca tus publicaciones</h2>
           <BlogsSearch />
         </div>
 

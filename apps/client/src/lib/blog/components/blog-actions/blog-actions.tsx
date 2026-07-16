@@ -31,7 +31,7 @@ export const BlogActions = ({ blog }: Props) => {
         <DropdownMenuTrigger
           render={
             <Button variant="outline" size="sm">
-              Actions
+              Acciones
               <ChevronDown />
             </Button>
           }
@@ -39,14 +39,14 @@ export const BlogActions = ({ blog }: Props) => {
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => navigate(`/blogs/${blog.id}/edit`)}>
             <Pencil />
-            Update
+            Editar
           </DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"
             onClick={() => setIsRemoveOpen(true)}
           >
             <Trash2 />
-            Remove
+            Eliminar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

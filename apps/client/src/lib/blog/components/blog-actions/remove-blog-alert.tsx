@@ -33,7 +33,7 @@ export const RemoveBlogAlert = ({ blog, isOpen, setIsOpen }: Props) => {
     }
 
     setIsOpen(false);
-    toast.success('Post removed');
+    toast.success('Publicación eliminada');
     navigate('/');
   };
 
@@ -41,19 +41,20 @@ export const RemoveBlogAlert = ({ blog, isOpen, setIsOpen }: Props) => {
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove "{blog.title}"</AlertDialogTitle>
+          <AlertDialogTitle>Eliminar "{blog.title}"</AlertDialogTitle>
           <AlertDialogDescription>
-            This post will be permanently deleted. This action cannot be undone.
+            Esta publicación se eliminará de forma permanente. Esta acción no se
+            puede deshacer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
             disabled={isLoading}
             onClick={onConfirm}
           >
-            Remove
+            Eliminar
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -12,8 +12,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import type { Blog } from '@/lib/api/types';
+import type { Blog, BlogStatus } from '@/lib/api/types';
 import { CategoriesSelect } from '@/lib/category/components/categories-select';
+import { getStatusLabel } from '@/lib/blog/constants/status-labels';
 
 import { useBlogForm } from './use-blog-form';
 
@@ -33,10 +34,10 @@ export const BlogForm = ({ blog }: Props) => {
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
         <Field className="flex-1">
-          <FieldLabel htmlFor="title">Title</FieldLabel>
+          <FieldLabel htmlFor="title">Título</FieldLabel>
           <Input
             id="title"
-            placeholder="My first post"
+            placeholder="Mi primera publicación"
             aria-invalid={!!errors.title}
             {...register('title')}
           />
@@ -44,19 +45,21 @@ export const BlogForm = ({ blog }: Props) => {
         </Field>
 
         <Field className="sm:w-40">
-          <FieldLabel htmlFor="status">Status</FieldLabel>
+          <FieldLabel htmlFor="status">Estado</FieldLabel>
           <Controller
             control={control}
             name="status"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger id="status" className="w-full">
-                  <SelectValue />
+                  <SelectValue>
+                    {(value: BlogStatus) => getStatusLabel(value)}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
+                  <SelectItem value="draft">Borrador</SelectItem>
+                  <SelectItem value="published">Publicado</SelectItem>
+                  <SelectItem value="archived">Archivado</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -65,7 +68,7 @@ export const BlogForm = ({ blog }: Props) => {
       </div>
 
       <Field>
-        <FieldLabel htmlFor="categories">Categories</FieldLabel>
+        <FieldLabel htmlFor="categories">Categorías</FieldLabel>
         <Controller
           control={control}
           name="categories"
@@ -80,10 +83,10 @@ export const BlogForm = ({ blog }: Props) => {
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="content">Content</FieldLabel>
+        <FieldLabel htmlFor="content">Contenido</FieldLabel>
         <Textarea
           id="content"
-          placeholder="Write something..."
+          placeholder="Escribe algo..."
           rows={10}
           aria-invalid={!!errors.content}
           {...register('content')}
@@ -93,7 +96,7 @@ export const BlogForm = ({ blog }: Props) => {
 
       <Button type="submit" disabled={isLoading} className="self-start">
         {isLoading && <Loader2 className="animate-spin" />}
-        {isUpdate ? 'Save changes' : 'Create post'}
+        {isUpdate ? 'Guardar cambios' : 'Crear publicación'}
       </Button>
     </form>
   );

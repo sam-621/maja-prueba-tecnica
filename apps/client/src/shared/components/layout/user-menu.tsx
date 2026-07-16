@@ -47,14 +47,14 @@ export const UserMenu = () => {
 
         <DropdownMenuItem onClick={() => navigate('/profile')}>
           <User />
-          Profile
+          Perfil
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem variant="destructive" onClick={logout}>
           <LogOut />
-          Log out
+          Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
