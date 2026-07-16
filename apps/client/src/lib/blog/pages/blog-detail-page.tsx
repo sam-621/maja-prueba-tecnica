@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 import { Badge } from '@/components/ui/badge';
+import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { PageLoader } from '@/shared/components/loader/page-loader';
 import { BlogActions } from '@/lib/blog/components/blog-actions/blog-actions';
@@ -47,9 +48,7 @@ export const BlogDetailPage = () => {
         <BlogActions blog={blog} />
       </header>
 
-      <div className="leading-relaxed whitespace-pre-wrap text-foreground/90">
-        {blog.content}
-      </div>
+      <MarkdownPreview content={blog.content} />
     </article>
   );
 };

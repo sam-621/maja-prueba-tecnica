@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+import { MarkdownEditor } from '@/shared/components/markdown/markdown-editor';
 import type { Blog, BlogStatus } from '@/lib/api/types';
 import { CategoriesSelect } from '@/lib/category/components/categories-select';
 import { getStatusLabel } from '@/lib/blog/constants/status-labels';
@@ -84,12 +84,20 @@ export const BlogForm = ({ blog }: Props) => {
 
       <Field>
         <FieldLabel htmlFor="content">Contenido</FieldLabel>
-        <Textarea
-          id="content"
-          placeholder="Escribe algo..."
-          rows={10}
-          aria-invalid={!!errors.content}
-          {...register('content')}
+        <Controller
+          control={control}
+          name="content"
+          render={({ field }) => (
+            <MarkdownEditor
+              id="content"
+              placeholder="Escribe algo... Puedes usar Markdown"
+              rows={12}
+              aria-invalid={!!errors.content}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
         {errors.content && <FieldError>{errors.content.message}</FieldError>}
       </Field>
