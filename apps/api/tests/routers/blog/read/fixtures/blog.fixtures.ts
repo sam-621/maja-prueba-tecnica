@@ -10,6 +10,7 @@ const categoryRef = (id: string) => ({ id }) as Category;
 export const BlogConstants = {
   ID: TestUtils.generateUUID(),
   Title: 'Existing blog',
+  Slug: 'existing-blog',
   Content: 'Existing content'
 };
 
@@ -21,6 +22,7 @@ export class BlogFixtures implements Fixture<Post> {
       {
         id: BlogConstants.ID,
         title: BlogConstants.Title,
+        slug: BlogConstants.Slug,
         content: BlogConstants.Content,
         status: 'published',
         authorId: UserConstants.ID,

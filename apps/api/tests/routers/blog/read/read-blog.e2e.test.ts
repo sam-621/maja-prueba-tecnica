@@ -8,7 +8,7 @@ import { BlogConstants, BlogFixtures } from './fixtures/blog.fixtures';
 import { CategoryConstants, CategoryFixtures } from './fixtures/category.fixtures';
 import { UserConstants, UserFixtures } from './fixtures/user.fixtures';
 
-describe('GET /blogs/:id - e2e', async () => {
+describe('GET /blogs/:slug - e2e', async () => {
   const testUtils = new TestUtils();
   const testServer = await TestServer.create();
 
@@ -20,13 +20,14 @@ describe('GET /blogs/:id - e2e', async () => {
     ]);
   });
 
-  test('returns the blog for an existing id without authentication', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`);
+  test('returns the blog for an existing slug without authentication', async () => {
+    const res = await testServer.get<Post>(`/blogs/${BlogConstants.Slug}`);
 
     expect(res.statusCode).toBe(200);
     expect(res.body.data).toMatchObject({
       id: BlogConstants.ID,
       title: BlogConstants.Title,
+      slug: BlogConstants.Slug,
       content: BlogConstants.Content,
       status: 'published',
       authorId: UserConstants.ID
@@ -34,7 +35,7 @@ describe('GET /blogs/:id - e2e', async () => {
   });
 
   test('includes the categories of the blog', async () => {
-    const res = await testServer.get<Post>(`/blogs/${BlogConstants.ID}`);
+    const res = await testServer.get<Post>(`/blogs/${BlogConstants.Slug}`);
 
     expect(res.body.data?.categories).toEqual([
       expect.objectContaining({
@@ -45,15 +46,9 @@ describe('GET /blogs/:id - e2e', async () => {
     ]);
   });
 
-  test('responds BLOG_NOT_FOUND for an unknown id', async () => {
-    const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}`);
+  test('responds BLOG_NOT_FOUND for an unknown slug', async () => {
+    const res = await testServer.get('/blogs/does-not-exist');
 
     expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
-  });
-
-  test('responds 400 for a malformed id', async () => {
-    const res = await testServer.get('/blogs/not-a-uuid');
-
-    expect(res.statusCode).toBe(400);
   });
 });

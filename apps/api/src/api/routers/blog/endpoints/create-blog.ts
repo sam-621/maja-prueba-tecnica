@@ -5,6 +5,7 @@ import z from 'zod';
 import type { RequestContext } from '@/api/request-context';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
+import { slugify } from '@/libs/slugify';
 
 import { Endpoint, EndpointResult } from '../../endpoint';
 
@@ -34,8 +35,11 @@ export class CreateBlogEndpoint extends Endpoint {
       ? await this.resolveCategories(repositories, input.categoryIds)
       : [];
 
+    const slug = await this.generateUniqueSlug(repositories, input.title);
+
     const blog = await repositories.post.save({
       title: input.title,
+      slug,
       content: input.content,
       status: input.status ?? 'draft',
       authorId: currentUser.id,
@@ -43,6 +47,22 @@ export class CreateBlogEndpoint extends Endpoint {
     });
 
     return new EndpointResult(201, blog);
+  }
+
+  private async generateUniqueSlug(
+    repositories: RequestContext['repositories'],
+    title: string
+  ): Promise<string> {
+    const base = slugify(title) || 'post';
+    let candidate = base;
+    let suffix = 2;
+
+    while (await repositories.post.findOneBy({ slug: candidate })) {
+      candidate = `${base}-${suffix}`;
+      suffix++;
+    }
+
+    return candidate;
   }
 
   private async resolveCategories(

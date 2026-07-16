@@ -8,20 +8,20 @@ import { Endpoint, EndpointResult } from '../../endpoint';
 import { BlogNotFound } from '../blog-errors';
 
 const blogParamsSchema = z.object({
-  id: z.uuid('id should be a valid uuid')
+  slug: z.string().min(1, 'slug should not be empty')
 });
 
 export class GetBlogEndpoint extends Endpoint {
   constructor() {
-    super('/blogs/:id', [paramsValidationMiddleware(blogParamsSchema)], 'get');
+    super('/blogs/:slug', [paramsValidationMiddleware(blogParamsSchema)], 'get');
   }
 
   async execute(req: Request, res: Response): Promise<EndpointResult> {
     const { repositories } = res.locals.ctx as RequestContext;
-    const id = req.params.id as string;
+    const slug = req.params.slug as string;
 
     const blog = await repositories.post.findOne({
-      where: { id },
+      where: { slug },
       relations: { categories: true }
     });
 

@@ -41,6 +41,34 @@ describe('POST /blogs - e2e', async () => {
     expect(res.body.data?.id).toMatch(TestUtils.Regex.UUID);
   });
 
+  test('generates a slug from the title', async () => {
+    const res = await testServer.post<Post>(
+      '/blogs',
+      { title: 'Hello World Post', content: 'Body' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data?.slug).toBe('hello-world-post');
+  });
+
+  test('appends a suffix when the slug already exists', async () => {
+    await testServer.post<Post>(
+      '/blogs',
+      { title: 'Duplicate Title', content: 'First' },
+      { headers: authHeader }
+    );
+
+    const second = await testServer.post<Post>(
+      '/blogs',
+      { title: 'Duplicate Title', content: 'Second' },
+      { headers: authHeader }
+    );
+
+    expect(second.statusCode).toBe(201);
+    expect(second.body.data?.slug).toBe('duplicate-title-2');
+  });
+
   test('creates a blog with the provided status', async () => {
     const res = await testServer.post<Post>(
       '/blogs',
