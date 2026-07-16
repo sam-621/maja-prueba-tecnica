@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { In } from 'typeorm';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
@@ -10,7 +11,8 @@ import { Endpoint, EndpointResult } from '../../endpoint';
 const createBlogInputSchema = z.object({
   title: z.string().min(1, 'Title should not be empty'),
   content: z.string().min(1, 'Content should not be empty'),
-  status: z.enum(['draft', 'published', 'archived']).optional()
+  status: z.enum(['draft', 'published', 'archived']).optional(),
+  categoryIds: z.array(z.uuid()).optional()
 });
 
 type CreateBlogInput = z.infer<typeof createBlogInputSchema>;
@@ -28,13 +30,27 @@ export class CreateBlogEndpoint extends Endpoint {
     const { repositories, currentUser } = res.locals.ctx as Required<RequestContext>;
     const input = req.body as CreateBlogInput;
 
+    const categories = input.categoryIds
+      ? await this.resolveCategories(repositories, input.categoryIds)
+      : [];
+
     const blog = await repositories.post.save({
       title: input.title,
       content: input.content,
       status: input.status ?? 'draft',
-      authorId: currentUser.id
+      authorId: currentUser.id,
+      categories
     });
 
     return new EndpointResult(201, blog);
+  }
+
+  private async resolveCategories(
+    repositories: RequestContext['repositories'],
+    categoryIds: string[]
+  ) {
+    const uniqueIds = [...new Set(categoryIds)];
+
+    return repositories.category.findBy({ id: In(uniqueIds) });
   }
 }

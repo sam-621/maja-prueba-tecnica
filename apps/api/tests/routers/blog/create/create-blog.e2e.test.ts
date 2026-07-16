@@ -1,10 +1,13 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import type { Post } from '@/persistence/entities';
+import type { Category, Post } from '@/persistence/entities';
 import { TestServer } from '@/tests/utils/test-server';
 import { TestUtils } from '@/tests/utils/test-utils';
 
+import { CategoryConstants, CategoryFixtures } from './fixtures/category.fixtures';
 import { UserConstants, UserFixtures } from './fixtures/user.fixtures';
+
+type BlogWithCategories = Post & { categories: Category[] };
 
 describe('POST /blogs - e2e', async () => {
   const testUtils = new TestUtils();
@@ -18,7 +21,7 @@ describe('POST /blogs - e2e', async () => {
   const authHeader = { authorization: `Bearer ${authToken}` };
 
   beforeEach(async () => {
-    await testUtils.loadFixtures([new UserFixtures()]);
+    await testUtils.loadFixtures([new UserFixtures(), new CategoryFixtures()]);
   });
 
   test('creates a draft blog by default', async () => {
@@ -47,6 +50,50 @@ describe('POST /blogs - e2e', async () => {
 
     expect(res.statusCode).toBe(201);
     expect(res.body.data?.status).toBe('published');
+  });
+
+  test('assigns the provided categories to the created blog', async () => {
+    const res = await testServer.post<BlogWithCategories>(
+      '/blogs',
+      {
+        title: 'Categorized blog',
+        content: 'Body',
+        categoryIds: [CategoryConstants.TECH_ID, CategoryConstants.FOOD_ID]
+      },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(201);
+    expect((res.body.data?.categories ?? []).map(category => category.id).sort()).toEqual(
+      [CategoryConstants.TECH_ID, CategoryConstants.FOOD_ID].sort()
+    );
+  });
+
+  test('assigns only the categories that exist, ignoring unknown ids', async () => {
+    const res = await testServer.post<BlogWithCategories>(
+      '/blogs',
+      {
+        title: 'Partially categorized',
+        content: 'Body',
+        categoryIds: [CategoryConstants.TECH_ID, TestUtils.generateUUID()]
+      },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(201);
+    expect((res.body.data?.categories ?? []).map(category => category.id)).toEqual([
+      CategoryConstants.TECH_ID
+    ]);
+  });
+
+  test('responds 400 for a malformed category id', async () => {
+    const res = await testServer.post(
+      '/blogs',
+      { title: 'Bad category', content: 'Body', categoryIds: ['not-a-uuid'] },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 401 when no authorization header is provided', async () => {
