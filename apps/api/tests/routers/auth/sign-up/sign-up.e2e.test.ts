@@ -20,20 +20,17 @@ describe('POST /signup - e2e', async () => {
       fullname: 'John Doe'
     });
 
-    expect(res.data).toMatch(TestUtils.Regex.JWT);
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data).toMatch(TestUtils.Regex.JWT);
   });
 
   test('returns EMAIL_ALREADY_TAKEN for an existing email', async () => {
-    const res = await testServer.post(
-      '/signup',
-      {
-        email: UserConstants.Email,
-        password: UserConstants.Password,
-        fullname: 'Jane Doe'
-      },
-      { shouldFail: true }
-    );
+    const res = await testServer.post('/signup', {
+      email: UserConstants.Email,
+      password: UserConstants.Password,
+      fullname: 'Jane Doe'
+    });
 
-    expect(res.errorCode).toBe('EMAIL_ALREADY_TAKEN');
+    expect(res.body.errorCode).toBe('EMAIL_ALREADY_TAKEN');
   });
 });

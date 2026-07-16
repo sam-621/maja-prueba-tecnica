@@ -13,7 +13,6 @@ type Config = {
 
 type RequestOptions = {
   headers?: Headers;
-  shouldFail?: boolean;
 };
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
@@ -22,6 +21,11 @@ export type ResponseBody<D = unknown> = {
   data?: D;
   errorMessage?: string;
   errorCode?: string;
+};
+
+export type TestResponse<D = unknown> = {
+  statusCode: number;
+  body: ResponseBody<D>;
 };
 
 export class TestServer {
@@ -64,7 +68,7 @@ export class TestServer {
     path: string,
     body?: unknown,
     options?: RequestOptions
-  ): Promise<ResponseBody<D>> {
+  ): Promise<TestResponse<D>> {
     const req = request(this.app)[method](path);
 
     const authorization =
@@ -76,19 +80,9 @@ export class TestServer {
 
     const res = await req;
 
-    const isSuccess = res.statusCode >= 200 && res.statusCode < 300;
-
-    if (!isSuccess && !options?.shouldFail) {
-      const errorCode = (res.body as ResponseBody)?.errorCode;
-
-      throw new Error(
-        errorCode ?? `Response returned a non success status code: ${res.statusCode}`,
-        {
-          cause: res.statusCode
-        }
-      );
-    }
-
-    return res.body as ResponseBody<D>;
+    return {
+      statusCode: res.statusCode,
+      body: res.body as ResponseBody<D>
+    };
   }
 }

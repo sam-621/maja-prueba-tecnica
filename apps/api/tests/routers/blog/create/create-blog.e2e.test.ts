@@ -28,13 +28,14 @@ describe('POST /blogs - e2e', async () => {
       { headers: authHeader }
     );
 
-    expect(res.data).toMatchObject({
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data).toMatchObject({
       title: 'My first blog',
       content: 'Hello world',
       status: 'draft',
       authorId: UserConstants.ID
     });
-    expect(res.data?.id).toMatch(TestUtils.Regex.UUID);
+    expect(res.body.data?.id).toMatch(TestUtils.Regex.UUID);
   });
 
   test('creates a blog with the provided status', async () => {
@@ -44,28 +45,29 @@ describe('POST /blogs - e2e', async () => {
       { headers: authHeader }
     );
 
-    expect(res.data?.status).toBe('published');
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data?.status).toBe('published');
   });
 
   test('responds 401 when no authorization header is provided', async () => {
-    await expect(
-      testServer.post('/blogs', { title: 'No auth', content: 'Body' })
-    ).rejects.toMatchObject({ cause: 401 });
+    const res = await testServer.post('/blogs', { title: 'No auth', content: 'Body' });
+
+    expect(res.statusCode).toBe(401);
   });
 
   test('responds 400 when the body is malformed', async () => {
-    await expect(
-      testServer.post('/blogs', { title: '' }, { headers: authHeader })
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.post('/blogs', { title: '' }, { headers: authHeader });
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 400 for an unknown status', async () => {
-    await expect(
-      testServer.post(
-        '/blogs',
-        { title: 'Bad status', content: 'Body', status: 'unknown' },
-        { headers: authHeader }
-      )
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.post(
+      '/blogs',
+      { title: 'Bad status', content: 'Body', status: 'unknown' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 });

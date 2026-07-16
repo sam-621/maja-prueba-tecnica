@@ -19,26 +19,25 @@ describe('POST /login - e2e', async () => {
       password: UserConstants.Password
     });
 
-    expect(res.data).toMatch(TestUtils.Regex.JWT);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data).toMatch(TestUtils.Regex.JWT);
   });
 
   test('returns INVALID_CREDENTIALS for a wrong password', async () => {
-    const res = await testServer.post(
-      '/login',
-      { email: UserConstants.Email, password: 'wrong-password' },
-      { shouldFail: true }
-    );
+    const res = await testServer.post('/login', {
+      email: UserConstants.Email,
+      password: 'wrong-password'
+    });
 
-    expect(res.errorCode).toBe('INVALID_CREDENTIALS');
+    expect(res.body.errorCode).toBe('INVALID_CREDENTIALS');
   });
 
   test('returns INVALID_CREDENTIALS for an unknown email', async () => {
-    const res = await testServer.post(
-      '/login',
-      { email: 'nobody@test.com', password: UserConstants.Password },
-      { shouldFail: true }
-    );
+    const res = await testServer.post('/login', {
+      email: 'nobody@test.com',
+      password: UserConstants.Password
+    });
 
-    expect(res.errorCode).toBe('INVALID_CREDENTIALS');
+    expect(res.body.errorCode).toBe('INVALID_CREDENTIALS');
   });
 });

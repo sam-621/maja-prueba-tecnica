@@ -29,47 +29,50 @@ describe('POST /blogs/:blogId/comments - e2e', async () => {
       { headers: authHeader }
     );
 
-    expect(res.data).toMatchObject({
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data).toMatchObject({
       content: 'Nice post!',
       postId: BlogConstants.ID,
       authorId: UserConstants.ID
     });
-    expect(res.data?.id).toMatch(TestUtils.Regex.UUID);
+    expect(res.body.data?.id).toMatch(TestUtils.Regex.UUID);
   });
 
   test('responds BLOG_NOT_FOUND for an unknown blog', async () => {
     const res = await testServer.post(
       `/blogs/${TestUtils.generateUUID()}/comments`,
       { content: 'Hello' },
-      { headers: authHeader, shouldFail: true }
+      { headers: authHeader }
     );
 
-    expect(res.errorCode).toBe('BLOG_NOT_FOUND');
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds 400 when the content is empty', async () => {
-    await expect(
-      testServer.post(
-        `/blogs/${BlogConstants.ID}/comments`,
-        { content: '' },
-        { headers: authHeader }
-      )
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.post(
+      `/blogs/${BlogConstants.ID}/comments`,
+      { content: '' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 400 for a malformed blogId', async () => {
-    await expect(
-      testServer.post(
-        '/blogs/not-a-uuid/comments',
-        { content: 'Hello' },
-        { headers: authHeader }
-      )
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.post(
+      '/blogs/not-a-uuid/comments',
+      { content: 'Hello' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 401 when no authorization header is provided', async () => {
-    await expect(
-      testServer.post(`/blogs/${BlogConstants.ID}/comments`, { content: 'Hello' })
-    ).rejects.toMatchObject({ cause: 401 });
+    const res = await testServer.post(`/blogs/${BlogConstants.ID}/comments`, {
+      content: 'Hello'
+    });
+
+    expect(res.statusCode).toBe(401);
   });
 });

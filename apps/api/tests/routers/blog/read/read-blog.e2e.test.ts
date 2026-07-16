@@ -27,7 +27,8 @@ describe('GET /blogs/:id - e2e', async () => {
       headers: authHeader
     });
 
-    expect(res.data).toMatchObject({
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data).toMatchObject({
       id: BlogConstants.ID,
       title: BlogConstants.Title,
       content: BlogConstants.Content,
@@ -38,22 +39,21 @@ describe('GET /blogs/:id - e2e', async () => {
 
   test('responds BLOG_NOT_FOUND for an unknown id', async () => {
     const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}`, {
-      headers: authHeader,
-      shouldFail: true
+      headers: authHeader
     });
 
-    expect(res.errorCode).toBe('BLOG_NOT_FOUND');
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds 400 for a malformed id', async () => {
-    await expect(
-      testServer.get('/blogs/not-a-uuid', { headers: authHeader })
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.get('/blogs/not-a-uuid', { headers: authHeader });
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 401 when no authorization header is provided', async () => {
-    await expect(
-      testServer.get(`/blogs/${BlogConstants.ID}`)
-    ).rejects.toMatchObject({ cause: 401 });
+    const res = await testServer.get(`/blogs/${BlogConstants.ID}`);
+
+    expect(res.statusCode).toBe(401);
   });
 });

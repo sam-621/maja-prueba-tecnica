@@ -32,10 +32,10 @@ describe('GET /blogs/:blogId/comments - e2e', async () => {
   test('responds all the blog comments', async () => {
     const res = await testServer.get<ListResponse>(`/blogs/${BlogConstants.ID}/comments`);
 
-    expect(res.data?.comments).toHaveLength(CommentConstants.COUNT);
-    expect(res.data?.pageInfo).toMatchObject({ page: 1, size: 10, totalPages: 1 });
+    expect(res.body.data?.comments).toHaveLength(CommentConstants.COUNT);
+    expect(res.body.data?.pageInfo).toMatchObject({ page: 1, size: 10, totalPages: 1 });
 
-    expect(res.data?.comments[0]?.author).toMatchObject({
+    expect(res.body.data?.comments[0]?.author).toMatchObject({
       id: UserConstants.ID,
       fullname: UserConstants.Fullname
     });
@@ -46,14 +46,14 @@ describe('GET /blogs/:blogId/comments - e2e', async () => {
       `/blogs/${BlogConstants.ID}/comments?page=1&size=2`
     );
 
-    expect(first.data?.comments).toHaveLength(2);
-    expect(first.data?.pageInfo).toMatchObject({ page: 1, size: 2, totalPages: 2 });
+    expect(first.body.data?.comments).toHaveLength(2);
+    expect(first.body.data?.pageInfo).toMatchObject({ page: 1, size: 2, totalPages: 2 });
 
     const second = await testServer.get<ListResponse>(
       `/blogs/${BlogConstants.ID}/comments?page=2&size=2`
     );
 
-    expect(second.data?.comments).toHaveLength(1);
+    expect(second.body.data?.comments).toHaveLength(1);
   });
 
   test('responds an empty list for a blog without comments', async () => {
@@ -61,27 +61,25 @@ describe('GET /blogs/:blogId/comments - e2e', async () => {
       `/blogs/${BlogConstants.EMPTY_ID}/comments`
     );
 
-    expect(res.data?.comments).toHaveLength(0);
-    expect(res.data?.pageInfo).toMatchObject({ totalPages: 0 });
+    expect(res.body.data?.comments).toHaveLength(0);
+    expect(res.body.data?.pageInfo).toMatchObject({ totalPages: 0 });
   });
 
   test('responds BLOG_NOT_FOUND for an unknown blog', async () => {
-    const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}/comments`, {
-      shouldFail: true
-    });
+    const res = await testServer.get(`/blogs/${TestUtils.generateUUID()}/comments`);
 
-    expect(res.errorCode).toBe('BLOG_NOT_FOUND');
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds 400 for a malformed blogId', async () => {
-    await expect(testServer.get('/blogs/not-a-uuid/comments')).rejects.toMatchObject({
-      cause: 400
-    });
+    const res = await testServer.get('/blogs/not-a-uuid/comments');
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 400 for a non-numeric page', async () => {
-    await expect(
-      testServer.get(`/blogs/${BlogConstants.ID}/comments?page=abc`)
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.get(`/blogs/${BlogConstants.ID}/comments?page=abc`);
+
+    expect(res.statusCode).toBe(400);
   });
 });

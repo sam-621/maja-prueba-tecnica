@@ -27,7 +27,8 @@ describe('DELETE /blogs/:id - e2e', async () => {
       headers: authHeader
     });
 
-    expect(res.data).toMatchObject({ id: BlogConstants.ID });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data).toMatchObject({ id: BlogConstants.ID });
 
     const persisted = await testUtils.getRepository(Post).findOneBy({
       id: BlogConstants.ID
@@ -38,20 +39,18 @@ describe('DELETE /blogs/:id - e2e', async () => {
 
   test('responds BLOG_NOT_FOUND for an unknown id', async () => {
     const res = await testServer.delete(`/blogs/${TestUtils.generateUUID()}`, {
-      headers: authHeader,
-      shouldFail: true
+      headers: authHeader
     });
 
-    expect(res.errorCode).toBe('BLOG_NOT_FOUND');
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds BLOG_FORBIDDEN when removing a blog owned by someone else', async () => {
     const res = await testServer.delete(`/blogs/${BlogConstants.OTHER_ID}`, {
-      headers: authHeader,
-      shouldFail: true
+      headers: authHeader
     });
 
-    expect(res.errorCode).toBe('BLOG_FORBIDDEN');
+    expect(res.body.errorCode).toBe('BLOG_FORBIDDEN');
 
     const persisted = await testUtils.getRepository(Post).findOneBy({
       id: BlogConstants.OTHER_ID
@@ -61,14 +60,14 @@ describe('DELETE /blogs/:id - e2e', async () => {
   });
 
   test('responds 400 for a malformed id', async () => {
-    await expect(
-      testServer.delete('/blogs/not-a-uuid', { headers: authHeader })
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.delete('/blogs/not-a-uuid', { headers: authHeader });
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 401 when no authorization header is provided', async () => {
-    await expect(
-      testServer.delete(`/blogs/${BlogConstants.ID}`)
-    ).rejects.toMatchObject({ cause: 401 });
+    const res = await testServer.delete(`/blogs/${BlogConstants.ID}`);
+
+    expect(res.statusCode).toBe(401);
   });
 });

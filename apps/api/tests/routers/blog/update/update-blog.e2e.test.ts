@@ -29,7 +29,8 @@ describe('PATCH /blogs/:id - e2e', async () => {
       { headers: authHeader }
     );
 
-    expect(res.data).toMatchObject({
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data).toMatchObject({
       id: BlogConstants.ID,
       title: 'Updated title',
       content: BlogConstants.Content,
@@ -41,41 +42,45 @@ describe('PATCH /blogs/:id - e2e', async () => {
     const res = await testServer.patch(
       `/blogs/${TestUtils.generateUUID()}`,
       { title: 'Nope' },
-      { headers: authHeader, shouldFail: true }
+      { headers: authHeader }
     );
 
-    expect(res.errorCode).toBe('BLOG_NOT_FOUND');
+    expect(res.body.errorCode).toBe('BLOG_NOT_FOUND');
   });
 
   test('responds BLOG_FORBIDDEN when updating a blog owned by someone else', async () => {
     const res = await testServer.patch(
       `/blogs/${BlogConstants.OTHER_ID}`,
       { title: 'Hijack' },
-      { headers: authHeader, shouldFail: true }
+      { headers: authHeader }
     );
 
-    expect(res.errorCode).toBe('BLOG_FORBIDDEN');
+    expect(res.body.errorCode).toBe('BLOG_FORBIDDEN');
   });
 
   test('responds 400 for a malformed id', async () => {
-    await expect(
-      testServer.patch('/blogs/not-a-uuid', { title: 'x' }, { headers: authHeader })
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.patch(
+      '/blogs/not-a-uuid',
+      { title: 'x' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 400 for an unknown status', async () => {
-    await expect(
-      testServer.patch(
-        `/blogs/${BlogConstants.ID}`,
-        { status: 'unknown' },
-        { headers: authHeader }
-      )
-    ).rejects.toMatchObject({ cause: 400 });
+    const res = await testServer.patch(
+      `/blogs/${BlogConstants.ID}`,
+      { status: 'unknown' },
+      { headers: authHeader }
+    );
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('responds 401 when no authorization header is provided', async () => {
-    await expect(
-      testServer.patch(`/blogs/${BlogConstants.ID}`, { title: 'No auth' })
-    ).rejects.toMatchObject({ cause: 401 });
+    const res = await testServer.patch(`/blogs/${BlogConstants.ID}`, { title: 'No auth' });
+
+    expect(res.statusCode).toBe(401);
   });
 });
