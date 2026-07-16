@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { useUser } from '@/shared/contexts/user-context';
 import { BlogsSearch } from '@/lib/blog/components/blogs-search';
+import { BlogsCategoryFilter } from '@/lib/blog/components/blogs-category-filter';
 import { BlogFeedProvider } from '@/lib/blog/contexts/blog-feed-context';
 
 import { ProfileBlogsList } from '../components/profile-blogs-list';
@@ -45,7 +46,14 @@ export const ProfilePage = () => {
 
         <div className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Busca tus publicaciones</h2>
-          <BlogsSearch />
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex-1">
+              <BlogsSearch />
+            </div>
+            <div className="sm:w-72">
+              <BlogsCategoryFilter />
+            </div>
+          </div>
         </div>
 
         <ProfileBlogsList />

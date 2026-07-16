@@ -7,7 +7,7 @@ import { useBlogFeed } from '@/lib/blog/contexts/blog-feed-context';
 import { useProfileBlogs } from '../hooks/use-profile-blogs';
 
 export const ProfileBlogsList = () => {
-  const { debouncedSearch } = useBlogFeed();
+  const { debouncedSearch, categoryIds, hasActiveFilters } = useBlogFeed();
   const {
     data,
     isLoading,
@@ -17,6 +17,7 @@ export const ProfileBlogsList = () => {
     isFetchingNextPage,
   } = useProfileBlogs({
     search: debouncedSearch,
+    categoryIds,
   });
 
   const blogs = data?.pages.flatMap((page) => page.blogs) ?? [];
@@ -39,8 +40,8 @@ export const ProfileBlogsList = () => {
       <EmptyState
         title="Aún no hay publicaciones"
         subtitle={
-          debouncedSearch
-            ? 'Ninguna publicación coincide con tu búsqueda.'
+          hasActiveFilters
+            ? 'Ninguna publicación coincide con los filtros.'
             : 'Aún no has escrito nada.'
         }
       />

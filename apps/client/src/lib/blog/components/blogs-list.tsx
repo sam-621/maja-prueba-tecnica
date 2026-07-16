@@ -7,7 +7,7 @@ import { BlogCard } from './blog-card';
 import { LoadMoreButton } from './load-more-button';
 
 export const BlogsList = () => {
-  const { debouncedSearch } = useBlogFeed();
+  const { debouncedSearch, categoryIds, hasActiveFilters } = useBlogFeed();
   const {
     data,
     isLoading,
@@ -15,7 +15,7 @@ export const BlogsList = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useBlogs({ search: debouncedSearch });
+  } = useBlogs({ search: debouncedSearch, categoryIds });
 
   const blogs = data?.pages.flatMap((page) => page.blogs) ?? [];
 
@@ -37,8 +37,8 @@ export const BlogsList = () => {
       <EmptyState
         title="Aún no hay publicaciones"
         subtitle={
-          debouncedSearch
-            ? 'Ninguna publicación coincide con tu búsqueda.'
+          hasActiveFilters
+            ? 'Ninguna publicación coincide con los filtros.'
             : 'Sé el primero en publicar algo.'
         }
       />

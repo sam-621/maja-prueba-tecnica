@@ -4,6 +4,7 @@ import { ButtonLink } from '@/shared/components/ui/button-link';
 import { useUser } from '@/shared/contexts/user-context';
 import { BlogsList } from '@/lib/blog/components/blogs-list';
 import { BlogsSearch } from '@/lib/blog/components/blogs-search';
+import { BlogsCategoryFilter } from '@/lib/blog/components/blogs-category-filter';
 import { BlogFeedProvider } from '@/lib/blog/contexts/blog-feed-context';
 
 export const BlogsFeedPage = () => {
@@ -27,7 +28,14 @@ export const BlogsFeedPage = () => {
           )}
         </div>
 
-        <BlogsSearch />
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex-1">
+            <BlogsSearch />
+          </div>
+          <div className="sm:w-72">
+            <BlogsCategoryFilter />
+          </div>
+        </div>
 
         <BlogsList />
       </div>
