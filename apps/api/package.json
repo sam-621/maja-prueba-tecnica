@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "NODE_ENV=local tsx watch src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.6",
