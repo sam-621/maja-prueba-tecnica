@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim
+FROM node:22-bookworm-slim AS build
 
 WORKDIR /app
 
@@ -11,7 +11,18 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
+RUN yarn build
+
+FROM node:22-bookworm-slim
+
+WORKDIR /app
+
 ENV NODE_ENV=local
+
+COPY package.json yarn.lock ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+
 EXPOSE 4000
 
-CMD ["yarn", "tsx", "src/index.ts"]
+CMD ["yarn", "start"]
