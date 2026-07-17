@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/shared/components/ui/separator';
 import type { Blog } from '@/lib/api/types';
 
 import { CommentPrompt } from './comment-prompt';

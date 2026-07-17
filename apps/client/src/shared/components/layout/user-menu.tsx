@@ -1,7 +1,11 @@
 import { LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/shared/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/shared/components/ui/dropdown-menu';
 import { useLogout } from '@/lib/auth/hooks/use-logout';
 import { useUser } from '@/shared/contexts/user-context';
 

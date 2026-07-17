@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { ChevronDown, Pencil, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/shared/components/ui/dropdown-menu';
 import type { Blog } from '@/lib/api/types';
 import { useUser } from '@/shared/contexts/user-context';
 
@@ -37,7 +37,9 @@ export const BlogActions = ({ blog }: Props) => {
           }
         />
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => navigate(`/blogs/${blog.slug}/edit`)}>
+          <DropdownMenuItem
+            onClick={() => navigate(`/blogs/${blog.slug}/edit`)}
+          >
             <Pencil />
             Editar
           </DropdownMenuItem>

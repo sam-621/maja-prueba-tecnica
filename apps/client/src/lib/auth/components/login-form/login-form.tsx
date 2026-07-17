@@ -1,9 +1,9 @@
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/shared/components/ui/button';
+import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
+import { Input } from '@/shared/components/ui/input';
 
 import { useLoginForm } from './use-login-form';
 

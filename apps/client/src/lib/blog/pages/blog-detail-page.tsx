@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/shared/components/ui/badge';
 import { formatDate } from '@/shared/utils/format-date';
 import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { ButtonLink } from '@/shared/components/ui/button-link';

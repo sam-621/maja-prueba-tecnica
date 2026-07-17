@@ -1,9 +1,9 @@
 import { Eye, Pencil } from 'lucide-react';
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+import { Button } from '@/shared/components/ui/button';
+import { Textarea } from '@/shared/components/ui/textarea';
+import { cn } from '@/shared/utils/utils';
 
 import { MarkdownPreview } from './markdown-preview';
 

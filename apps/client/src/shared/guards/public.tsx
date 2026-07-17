@@ -16,6 +16,7 @@ export const Public = ({ children }: Props) => {
 
   if (isSignedIn) {
     const redirect = searchParams.get('redirect');
+
     return (
       <Navigate to={redirect ? decodeURIComponent(redirect) : '/'} replace />
     );

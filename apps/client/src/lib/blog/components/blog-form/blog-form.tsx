@@ -1,16 +1,16 @@
 import { Loader2 } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/shared/components/ui/button';
+import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
+import { Input } from '@/shared/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/shared/components/ui/select';
 import { MarkdownEditor } from '@/shared/components/markdown/markdown-editor';
 import type { Blog, BlogStatus } from '@/lib/api/types';
 import { CategoriesSelect } from '@/lib/category/components/categories-select';

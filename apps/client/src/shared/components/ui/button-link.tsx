@@ -1,8 +1,8 @@
 import type { VariantProps } from 'class-variance-authority';
 import { Link, type LinkProps } from 'react-router-dom';
 
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/shared/components/ui/button';
+import { cn } from '@/shared/utils/utils';
 
 type Props = LinkProps & VariantProps<typeof buttonVariants>;
 

@@ -10,7 +10,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from '@/shared/components/ui/alert-dialog';
 import type { Blog } from '@/lib/api/types';
 import { useDeleteBlog } from '@/lib/blog/hooks/use-delete-blog';
 

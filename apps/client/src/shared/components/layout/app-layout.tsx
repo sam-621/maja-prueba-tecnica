@@ -6,7 +6,7 @@ import { Logo } from '@/shared/components/ui/logo';
 
 import { UserMenu } from './user-menu';
 
-export const SiteLayout = () => {
+export const AppLayout = () => {
   const { isSignedIn } = useUser();
 
   return (

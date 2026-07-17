@@ -12,9 +12,9 @@ import {
   ComboboxList,
   ComboboxValue,
   useComboboxAnchor,
-} from '@/components/ui/combobox';
+} from '@/shared/components/ui/combobox';
 import type { Category } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils/utils';
 
 import { useCategories } from '../hooks/use-categories';
 import { useCreateCategory } from '../hooks/use-create-category';

@@ -1,7 +1,11 @@
 import { PenLine } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/shared/components/ui/avatar';
+import { Separator } from '@/shared/components/ui/separator';
 import { ButtonLink } from '@/shared/components/ui/button-link';
 import { useUser } from '@/shared/contexts/user-context';
 import { BlogsSearch } from '@/lib/blog/components/blogs-search';

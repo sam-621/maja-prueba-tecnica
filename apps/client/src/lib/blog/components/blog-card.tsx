@@ -1,8 +1,13 @@
 import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/shared/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
 import type { Blog } from '@/lib/api/types';
 import { stripMarkdown } from '@/shared/utils/strip-markdown';
 

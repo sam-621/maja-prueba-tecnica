@@ -1,14 +1,18 @@
 import { MoreHorizontal, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/shared/components/ui/avatar';
+import { Button } from '@/shared/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/shared/components/ui/dropdown-menu';
 import type { Comment } from '@/lib/api/types';
 import { MarkdownPreview } from '@/shared/components/markdown/markdown-preview';
 import { useUser } from '@/shared/contexts/user-context';

@@ -2,8 +2,8 @@ import { Loader2, Send } from 'lucide-react';
 import { useState, type FormEvent, type KeyboardEvent } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/shared/components/ui/button';
+import { Textarea } from '@/shared/components/ui/textarea';
 
 import { useCreateComment } from '../hooks/use-create-comment';
 
@@ -18,10 +18,10 @@ export const CommentForm = ({ blogId }: Props) => {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const trimmed = content.trim();
-    if (!trimmed) return;
+    const trimmedContent = content.trim();
+    if (!trimmedContent) return;
 
-    const result = await createComment({ content: trimmed });
+    const result = await createComment({ content: trimmedContent });
 
     if (!result.isSuccess) {
       toast.error(result.error);

@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils/utils';
 
 type Props = {
   content: string;
@@ -53,7 +53,9 @@ const components: ComponentProps<typeof ReactMarkdown>['components'] = {
     return (
       <code
         className={cn(
-          isBlock ? 'block' : 'rounded bg-muted px-1.5 py-0.5 font-mono text-sm',
+          isBlock
+            ? 'block'
+            : 'rounded bg-muted px-1.5 py-0.5 font-mono text-sm',
           className
         )}
       >

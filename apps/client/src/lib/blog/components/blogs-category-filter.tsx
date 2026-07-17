@@ -10,7 +10,7 @@ import {
   ComboboxList,
   ComboboxValue,
   useComboboxAnchor,
-} from '@/components/ui/combobox';
+} from '@/shared/components/ui/combobox';
 import type { Category } from '@/lib/api/types';
 import { useCategories } from '@/lib/category/hooks/use-categories';
 import { useDebouncedValue } from '@/shared/hooks/use-debounced-value';
