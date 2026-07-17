@@ -10,10 +10,12 @@ import { BlogActions } from '@/lib/blog/components/blog-actions/blog-actions';
 import { CommentsSection } from '@/lib/comment/components/comments-section';
 import { useBlog } from '@/lib/blog/hooks/use-blog';
 import { getStatusLabel } from '@/lib/blog/constants/status-labels';
+import { useUser } from '@/shared/contexts/user-context';
 
 export const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: blog, isLoading, error } = useBlog(slug);
+  const { user } = useUser();
 
   if (isLoading) return <PageLoader />;
 
@@ -49,7 +51,9 @@ export const BlogDetailPage = () => {
               </>
             )}
             <time dateTime={blog.createdAt}>{formatDate(blog.createdAt)}</time>
-            <Badge variant="outline">{getStatusLabel(blog.status)}</Badge>
+            {user?.id === blog.authorId && (
+              <Badge variant="outline">{getStatusLabel(blog.status)}</Badge>
+            )}
           </div>
         </div>
 

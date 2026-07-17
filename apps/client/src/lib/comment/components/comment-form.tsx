@@ -1,9 +1,9 @@
 import { Loader2, Send } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, type KeyboardEvent } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 import { useCreateComment } from '../hooks/use-create-comment';
 
@@ -31,15 +31,24 @@ export const CommentForm = ({ blogId }: Props) => {
     setContent('');
   };
 
+  const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      onSubmit(event);
+    }
+  };
+
   return (
     <form onSubmit={onSubmit} className="flex items-start gap-2">
-      <Input
+      <Textarea
         value={content}
         onChange={(event) => setContent(event.target.value)}
-        placeholder="Escribe un comentario..."
-        className="flex-1"
+        onKeyDown={onKeyDown}
+        rows={1}
+        placeholder="Escribe un comentario... soporta markdown"
+        className="min-h-0 flex-1 resize-none"
       />
-      <Button type="submit" disabled={isLoading || !content.trim()}>
+      <Button type="submit" size={'lg'} disabled={isLoading || !content.trim()}>
         {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
         Comentar
       </Button>
