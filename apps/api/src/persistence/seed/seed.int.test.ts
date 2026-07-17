@@ -4,7 +4,7 @@ import { Category } from '@/persistence/entities';
 import { BASE_CATEGORIES, seedCategories } from '@/persistence/seed/seed';
 import { TestUtils } from '@/tests/utils/test-utils';
 
-describe('seedCategories - e2e', () => {
+describe('seedCategories', () => {
   const testUtils = new TestUtils();
   const repository = testUtils.getRepository(Category);
 
@@ -21,7 +21,7 @@ describe('seedCategories - e2e', () => {
     );
   });
 
-  test('is idempotent and does not duplicate on re-run', async () => {
+  test('does not duplicate on re-run', async () => {
     await seedCategories(testUtils.dataSource);
     await seedCategories(testUtils.dataSource);
 

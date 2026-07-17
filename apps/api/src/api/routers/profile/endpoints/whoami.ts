@@ -13,7 +13,6 @@ export class WhoamiEndpoint extends Endpoint {
   async execute(_req: Request, res: Response): Promise<EndpointResult> {
     const { currentUser } = res.locals.ctx as Required<RequestContext>;
 
-    // TODO remove this eslint comment, find any other way
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: _passwordHash, ...profile } = currentUser;
 

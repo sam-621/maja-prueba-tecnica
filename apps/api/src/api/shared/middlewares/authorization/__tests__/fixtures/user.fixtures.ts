@@ -4,7 +4,7 @@ import { TestUtils } from '@/tests/utils/test-utils';
 
 export const UserConstants = {
   ID: TestUtils.generateUUID(),
-  Email: 'jane@test.com'
+  Email: 'ellie@williams.com'
 };
 
 export class UserFixtures implements Fixture<User> {

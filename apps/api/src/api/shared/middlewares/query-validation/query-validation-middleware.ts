@@ -8,9 +8,10 @@ export const queryValidationMiddleware =
     const result = schema.safeParse(req.query);
 
     if (!result.success) {
-      res
-        .status(400)
-        .json({ message: 'query malformed', details: result.error.message });
+      res.status(400).json({
+        message: 'query malformed',
+        details: result.error.message
+      });
 
       return;
     }

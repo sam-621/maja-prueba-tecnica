@@ -8,9 +8,10 @@ export const paramsValidationMiddleware =
     const result = schema.safeParse(req.params);
 
     if (!result.success) {
-      res
-        .status(400)
-        .json({ message: 'params malformed', details: result.error.message });
+      res.status(400).json({
+        message: 'params malformed',
+        details: result.error.message
+      });
 
       return;
     }

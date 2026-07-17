@@ -4,11 +4,11 @@ import { logger } from '../../logger/logger';
 import { Category } from '../entities';
 
 export const BASE_CATEGORIES: readonly { name: string; slug: string }[] = [
-  { name: 'Technology', slug: 'technology' },
-  { name: 'Food', slug: 'food' },
-  { name: 'Travel', slug: 'travel' },
+  { name: 'Tecnología', slug: 'tecnología' },
+  { name: 'Comida', slug: 'comida' },
+  { name: 'Viajes', slug: 'viajes' },
   { name: 'Lifestyle', slug: 'lifestyle' },
-  { name: 'Business', slug: 'business' }
+  { name: 'Negocios', slug: 'negocios' }
 ];
 
 export const seedCategories = async (dataSource: DataSource): Promise<void> => {

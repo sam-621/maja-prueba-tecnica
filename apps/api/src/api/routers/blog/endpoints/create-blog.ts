@@ -57,9 +57,8 @@ export class CreateBlogEndpoint extends Endpoint {
     let candidate = base;
     let suffix = 2;
 
-    while (await repositories.blog.findOneBy({ slug: candidate })) {
-      candidate = `${base}-${suffix}`;
-      suffix++;
+    while (await repositories.blog.existsBy({ slug: candidate })) {
+      candidate = `${base}-${suffix++}`;
     }
 
     return candidate;
