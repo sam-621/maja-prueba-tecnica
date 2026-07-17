@@ -4,7 +4,7 @@ import { logger } from '../../logger/logger';
 import { Category } from '../entities';
 
 export const BASE_CATEGORIES: readonly { name: string; slug: string }[] = [
-  { name: 'Tecnología', slug: 'tecnología' },
+  { name: 'Tecnología', slug: 'tecnolog-a' },
   { name: 'Comida', slug: 'comida' },
   { name: 'Viajes', slug: 'viajes' },
   { name: 'Lifestyle', slug: 'lifestyle' },

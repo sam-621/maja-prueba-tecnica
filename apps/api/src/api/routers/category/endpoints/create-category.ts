@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { slugify } from '@/libs/slugify';
@@ -39,6 +40,6 @@ export class CreateCategoryEndpoint extends Endpoint {
 
     const category = await repositories.category.save({ name: input.name, slug });
 
-    return new EndpointResult(201, category);
+    return new EndpointResult(HttpStatusCode.Created, category);
   }
 }

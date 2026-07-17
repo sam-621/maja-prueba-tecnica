@@ -19,7 +19,7 @@ type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export type ResponseBody<D = unknown> = {
   data?: D;
-  errorMessage?: string;
+  message?: string;
   errorCode?: string;
 };
 

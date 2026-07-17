@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { paramsValidationMiddleware } from '@/api/shared/middlewares/params-validation';
 import { queryValidationMiddleware } from '@/api/shared/middlewares/query-validation';
 
@@ -51,7 +52,7 @@ export class ListCommentsEndpoint extends Endpoint {
       .take(size)
       .getManyAndCount();
 
-    return new EndpointResult(200, {
+    return new EndpointResult(HttpStatusCode.Ok, {
       comments,
       pageInfo: {
         page,

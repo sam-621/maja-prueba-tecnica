@@ -64,6 +64,7 @@ describe('authorizationMiddleware', () => {
     const res = await request(app).get('/protected');
 
     expect(res.statusCode).toBe(401);
+    expect(res.body).toMatchObject({ errorCode: 'UNAUTHORIZED' });
   });
 
   test('responds 401 when the header does not use the Bearer scheme', async () => {

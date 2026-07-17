@@ -1,5 +1,6 @@
 import { Router as ExpressRouter } from 'express';
 
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { logger } from '@/logger';
 
 import { ApiError } from '../shared/errors/api-errors';
@@ -39,8 +40,8 @@ export abstract class Router {
           return;
         }
 
-        res.status(500).json({
-          errorMessage: 'Unexpected error',
+        res.status(HttpStatusCode.InternalServerError).json({
+          message: 'Unexpected error',
           errorCode: 'INTERNAL_SERVER_ERROR'
         });
         logger.error('unknown error', error);

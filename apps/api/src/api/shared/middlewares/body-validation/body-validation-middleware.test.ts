@@ -51,5 +51,8 @@ describe('bodyValidationMiddleware', () => {
 
     expect(next).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({ errorCode: 'VALIDATION_ERROR' })
+    );
   });
 });

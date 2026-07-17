@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { paramsValidationMiddleware } from '@/api/shared/middlewares/params-validation';
 
 import { Endpoint, EndpointResult } from '../../endpoint';
@@ -39,6 +40,6 @@ export class GetBlogEndpoint extends Endpoint {
       throw new BlogNotFound();
     }
 
-    return new EndpointResult(200, blog);
+    return new EndpointResult(HttpStatusCode.Ok, blog);
   }
 }

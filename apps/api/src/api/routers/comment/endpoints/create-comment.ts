@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { paramsValidationMiddleware } from '@/api/shared/middlewares/params-validation';
@@ -49,6 +50,6 @@ export class CreateCommentEndpoint extends Endpoint {
       authorId: currentUser.id
     });
 
-    return new EndpointResult(201, comment);
+    return new EndpointResult(HttpStatusCode.Created, comment);
   }
 }

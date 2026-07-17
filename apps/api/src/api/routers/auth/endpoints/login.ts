@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { publicRateLimit } from '@/api/shared/middlewares/rate-limit';
 import { hasher } from '@/libs/hasher';
@@ -44,6 +45,6 @@ export class LoginEndpoint extends Endpoint {
 
     const accessToken = jwt.generate({ email: user.email, sub: user.id });
 
-    return new EndpointResult(200, accessToken);
+    return new EndpointResult(HttpStatusCode.Ok, accessToken);
   }
 }

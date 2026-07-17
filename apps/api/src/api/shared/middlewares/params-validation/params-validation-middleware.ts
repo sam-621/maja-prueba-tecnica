@@ -1,6 +1,7 @@
 import type { ZodObject } from 'zod';
 
 import type { EndpointFn } from '@/api/routers/endpoint';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 
 export const paramsValidationMiddleware =
   (schema: ZodObject): EndpointFn =>
@@ -8,8 +9,9 @@ export const paramsValidationMiddleware =
     const result = schema.safeParse(req.params);
 
     if (!result.success) {
-      res.status(400).json({
+      res.status(HttpStatusCode.BadRequest).json({
         message: 'params malformed',
+        errorCode: 'VALIDATION_ERROR',
         details: result.error.message
       });
 

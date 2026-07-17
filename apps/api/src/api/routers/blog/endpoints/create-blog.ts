@@ -3,6 +3,7 @@ import { In } from 'typeorm';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { slugify } from '@/libs/slugify';
@@ -46,7 +47,7 @@ export class CreateBlogEndpoint extends Endpoint {
       categories
     });
 
-    return new EndpointResult(201, blog);
+    return new EndpointResult(HttpStatusCode.Created, blog);
   }
 
   private async generateUniqueSlug(

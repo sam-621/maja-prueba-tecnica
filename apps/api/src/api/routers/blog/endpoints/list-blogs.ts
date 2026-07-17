@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { queryValidationMiddleware } from '@/api/shared/middlewares/query-validation';
 import { Blog } from '@/persistence/entities';
 
@@ -58,7 +59,7 @@ export class ListBlogsEndpoint extends Endpoint {
 
     const [blogs, total] = await query.getManyAndCount();
 
-    return new EndpointResult(200, {
+    return new EndpointResult(HttpStatusCode.Ok, {
       blogs,
       pageInfo: {
         page,

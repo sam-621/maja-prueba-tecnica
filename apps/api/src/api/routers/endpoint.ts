@@ -1,5 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
+import type { HttpStatusCode } from '@/api/shared/http-status-code';
+
 export abstract class Endpoint {
   constructor(
     readonly route: `/${string}`,
@@ -18,7 +20,7 @@ export type EndpointFn = (
 
 export class EndpointResult {
   constructor(
-    readonly statusCode: number,
+    readonly statusCode: HttpStatusCode,
     readonly data: any
   ) {}
 }

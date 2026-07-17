@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 
 import { Endpoint, EndpointResult } from '../../endpoint';
@@ -16,6 +17,6 @@ export class WhoamiEndpoint extends Endpoint {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: _passwordHash, ...profile } = currentUser;
 
-    return new EndpointResult(200, profile);
+    return new EndpointResult(HttpStatusCode.Ok, profile);
   }
 }

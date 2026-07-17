@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
 import { hasher } from '@/libs/hasher';
 import { jwt } from '@/libs/jwt';
@@ -42,6 +43,6 @@ export class SignUpEndpoint extends Endpoint {
 
     const accessToken = jwt.generate({ email: user.email, sub: user.id });
 
-    return new EndpointResult(201, accessToken);
+    return new EndpointResult(HttpStatusCode.Created, accessToken);
   }
 }

@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { queryValidationMiddleware } from '@/api/shared/middlewares/query-validation';
 
 import { Endpoint, EndpointResult } from '../../endpoint';
@@ -33,7 +34,7 @@ export class ListCategoriesEndpoint extends Endpoint {
 
     const [categories, total] = await query.getManyAndCount();
 
-    return new EndpointResult(200, {
+    return new EndpointResult(HttpStatusCode.Ok, {
       categories,
       pageInfo: {
         page,

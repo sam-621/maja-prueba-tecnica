@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
+import { HttpStatusCode } from '@/api/shared/http-status-code';
 import { authorizationMiddleware } from '@/api/shared/middlewares/authorization';
 import { paramsValidationMiddleware } from '@/api/shared/middlewares/params-validation';
 
@@ -37,6 +38,6 @@ export class RemoveBlogEndpoint extends Endpoint {
 
     await repositories.blog.remove(blog);
 
-    return new EndpointResult(200, { id });
+    return new EndpointResult(HttpStatusCode.Ok, { id });
   }
 }
