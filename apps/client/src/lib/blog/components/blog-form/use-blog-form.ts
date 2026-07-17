@@ -17,7 +17,7 @@ const categorySchema = z.object({
 });
 
 const schema = z.object({
-  title: z.string().min(1, 'El título es obligatorio'),
+  title: z.string().trim().min(1, 'El título es obligatorio'),
   content: z.string().min(1, 'El contenido es obligatorio'),
   status: z.enum(['draft', 'published', 'archived']),
   categories: z.array(categorySchema),
