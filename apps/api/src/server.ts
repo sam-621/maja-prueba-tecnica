@@ -11,6 +11,7 @@ import { BlogRouter } from './api/routers/blog';
 import { CategoryRouter } from './api/routers/category';
 import { CommentRouter } from './api/routers/comment';
 import { ProfileRouter } from './api/routers/profile';
+import { notFoundMiddleware } from './api/shared/middlewares/not-found';
 import { initDataSource } from './persistence/data-source';
 import { seedCategories } from './persistence/seed';
 import { config } from './config';
@@ -43,6 +44,8 @@ export class Server {
     this.app.use(blogRouter.router);
     this.app.use(commentRouter.router);
     this.app.use(categoryRouter.router);
+
+    this.app.use(notFoundMiddleware);
   }
 
   getApp() {
