@@ -58,7 +58,7 @@ export const BlogDetailPage = () => {
 
       <MarkdownPreview content={blog.content} />
 
-      <CommentsSection blogId={blog.id} />
+      <CommentsSection blog={blog} />
     </article>
   );
 };

@@ -1,31 +1,23 @@
 import { Separator } from '@/components/ui/separator';
-import { useUser } from '@/shared/contexts/user-context';
+import type { Blog } from '@/lib/api/types';
 
-import { CommentForm } from './comment-form';
+import { CommentPrompt } from './comment-prompt';
 import { CommentsList } from './comments-list';
 
 type Props = {
-  blogId: string;
+  blog: Blog;
 };
 
-export const CommentsSection = ({ blogId }: Props) => {
-  const { isSignedIn } = useUser();
-
+export const CommentsSection = ({ blog }: Props) => {
   return (
     <section className="flex flex-col gap-5">
       <Separator />
 
       <h2 className="text-xl font-semibold">Comentarios</h2>
 
-      {isSignedIn ? (
-        <CommentForm blogId={blogId} />
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          Inicia sesión para dejar un comentario.
-        </p>
-      )}
+      <CommentPrompt blog={blog} />
 
-      <CommentsList blogId={blogId} />
+      <CommentsList blogId={blog.id} />
     </section>
   );
 };
