@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import cors from 'cors';
 import type { Application } from 'express';
 import express from 'express';
+import helmet from 'helmet';
 
 import { requestContextMiddleware } from './api/request-context';
 import { AuthRouter } from './api/routers/auth';
@@ -26,8 +27,9 @@ export class Server {
     const dataSource = await initDataSource();
     await seedCategories(dataSource);
 
+    this.app.use(helmet());
     this.app.use(cors({ origin: config.cors, credentials: true }));
-    this.app.use(express.json());
+    this.app.use(express.json({ limit: '1mb' }));
     this.app.use(requestContextMiddleware(dataSource));
 
     const authRouter = new AuthRouter();

@@ -3,6 +3,7 @@ import z from 'zod';
 
 import type { RequestContext } from '@/api/request-context';
 import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validation';
+import { publicRateLimit } from '@/api/shared/middlewares/rate-limit';
 import { hasher } from '@/libs/hasher';
 import { jwt } from '@/libs/jwt';
 
@@ -11,14 +12,18 @@ import { InvalidCredentials } from '../auth-errors';
 
 const loginInputSchema = z.object({
   email: z.email('email should be a valid email'),
-  password: z.string().min(8, 'Password should be grater than 8')
+  password: z.string().min(8, 'Password should be at least 8 characters')
 });
 
 type LoginInput = z.infer<typeof loginInputSchema>;
 
 export class LoginEndpoint extends Endpoint {
   constructor() {
-    super('/login', [bodyValidationMiddleware(loginInputSchema)], 'post');
+    super(
+      '/login',
+      [publicRateLimit, bodyValidationMiddleware(loginInputSchema)],
+      'post'
+    );
   }
 
   async execute(req: Request, res: Response): Promise<EndpointResult> {

@@ -6,7 +6,7 @@ import { bodyValidationMiddleware } from '@/api/shared/middlewares/body-validati
 
 const schema = z.object({
   email: z.email('email should be a valid email'),
-  password: z.string().min(8, 'Password should be grater than 8')
+  password: z.string().min(8, 'Password should be at least 8 characters')
 });
 
 const createResponse = () => {

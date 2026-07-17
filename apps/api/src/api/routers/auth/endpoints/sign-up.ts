@@ -11,7 +11,7 @@ import { EmailAlreadyTaken } from '../auth-errors';
 
 const signUpInputSchema = z.object({
   email: z.email('email should be a valid email'),
-  password: z.string().min(8, 'Password should be grater than 8'),
+  password: z.string().min(8, 'Password should be at least 8 characters'),
   fullname: z.string().min(1, 'Fullname should not be empty')
 });
 
